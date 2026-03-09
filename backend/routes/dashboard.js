@@ -91,6 +91,123 @@ router.get('/student/:id/assignments', authMiddleware, (req, res) => {
     });
 });
 
+router.get('/student/:id/daily-summary', authMiddleware, (req, res) => {
+    const studentId = req.params.id;
+
+    // Verify student belongs to user
+    db.get('SELECT * FROM students WHERE id = ? AND user_id = ?', [studentId, req.userId], (err, student) => {
+        if (err || !student) return res.status(404).json({ error: 'Student not found' });
+
+        const today = new Date();
+        const twoDaysAgo = new Date(today);
+        twoDaysAgo.setDate(today.getDate() - 2);
+
+        const threeDaysFromNow = new Date(today);
+        threeDaysFromNow.setDate(today.getDate() + 3);
+
+        const sevenDaysFromNow = new Date(today);
+        sevenDaysFromNow.setDate(today.getDate() + 7);
+
+        const formatDate = (date) => date.toISOString().split('T')[0];
+
+        // 1. Get recent assignments (graded/completed in last 48 hrs)
+        // Note: Our DB doesn't track completion date perfectly, so we'll approximate with score IS NOT NULL 
+        // in a real app this would use a submitted_at or graded_at timestamp.
+        db.all(`
+            SELECT a.name, c.name as course_name 
+            FROM assignments a
+            JOIN courses c ON a.course_id = c.id
+            WHERE c.student_id = ? AND a.score IS NOT NULL
+            ORDER BY a.id DESC 
+            LIMIT 2
+        `, [studentId], (err, recentAssignments) => {
+            if (err) return res.status(500).json({ error: 'Database error' });
+
+            // 2. Get upcoming/overdue assignments
+            db.all(`
+                SELECT a.name, a.due_date, a.is_late, c.name as course_name 
+                FROM assignments a
+                JOIN courses c ON a.course_id = c.id
+                WHERE c.student_id = ? AND a.score IS NULL
+                ORDER BY a.due_date ASC
+            `, [studentId], (err, pendingAssignments) => {
+                if (err) return res.status(500).json({ error: 'Database error' });
+
+                const todayStr = formatDate(today);
+                const tomorrow = new Date(today);
+                tomorrow.setDate(today.getDate() + 1);
+                const tomorrowStr = formatDate(tomorrow);
+                const threeDaysStr = formatDate(threeDaysFromNow);
+                const sevenDaysStr = formatDate(sevenDaysFromNow);
+
+                const overdue = [];
+                const dueToday = [];
+                const dueTomorrow = [];
+                const upcomingTests = [];
+
+                pendingAssignments.forEach(a => {
+                    const isTest = a.name.toLowerCase().includes('test') ||
+                        a.name.toLowerCase().includes('quiz') ||
+                        a.name.toLowerCase().includes('exam');
+
+                    if (a.due_date < todayStr || a.is_late) {
+                        overdue.push(a);
+                    } else if (a.due_date === todayStr) {
+                        dueToday.push(a);
+                    } else if (a.due_date === tomorrowStr) {
+                        dueTomorrow.push(a);
+                    }
+
+                    if (isTest && a.due_date >= todayStr && a.due_date <= sevenDaysStr) {
+                        upcomingTests.push(a);
+                    }
+                });
+
+                // Generate Output Object
+                const studentName = student.name.split(' ')[0];
+                let recentActivity = "";
+                let focusTasks = [];
+                let closingOutlook = "";
+
+                // 1. Recent Activity
+                if (recentAssignments && recentAssignments.length > 0) {
+                    if (recentAssignments.length === 1) {
+                        recentActivity = `${studentName} recently completed the ${recentAssignments[0].name} for ${recentAssignments[0].course_name.split(' ').slice(1).join(' ')}.`;
+                    } else {
+                        recentActivity = `${studentName} recently completed the ${recentAssignments[0].name} for ${recentAssignments[0].course_name.split(' ').slice(1).join(' ')} and submitted a ${recentAssignments[1].name} in ${recentAssignments[1].course_name.split(' ').slice(1).join(' ')}.`;
+                    }
+                } else {
+                    recentActivity = `${studentName} has been actively participating in classes this week.`;
+                }
+
+                // 2. Today's Focus
+                if (overdue.length > 0) {
+                    focusTasks.push(`Finish the ${overdue[0].name} for ${overdue[0].course_name.split(' ').slice(1).join(' ')}`);
+                }
+
+                if (dueToday.length > 0 && focusTasks.length < 2) {
+                    focusTasks.push(`Complete the ${dueToday[0].name} for ${dueToday[0].course_name.split(' ').slice(1).join(' ')}`);
+                }
+
+                if (dueTomorrow.length > 0 && focusTasks.length < 2) {
+                    focusTasks.push(`Work on the ${dueTomorrow[0].name} for ${dueTomorrow[0].course_name.split(' ').slice(1).join(' ')}`);
+                }
+
+                if (upcomingTests.length > 0 && focusTasks.length < 2) {
+                    focusTasks.push(`Review material for the upcoming ${upcomingTests[0].name} for ${upcomingTests[0].course_name.split(' ').slice(1).join(' ')} later this week`);
+                }
+
+                res.json({
+                    daily_summary: {
+                        recent_activity: recentActivity,
+                        focus_tasks: focusTasks
+                    }
+                });
+            });
+        });
+    });
+});
+
 router.get('/course/:id', authMiddleware, (req, res) => {
     const courseId = req.params.id;
     db.get(`

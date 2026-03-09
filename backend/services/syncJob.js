@@ -33,14 +33,14 @@ async function runSyncForUser(userId) {
         emma = { id: result.lastID };
     }
 
-    let liam = await getQuery('SELECT id FROM students WHERE user_id = ? AND name = ?', [userId, 'Liam']);
-    if (!liam) {
-        const result = await runQuery('INSERT INTO students (user_id, name, school) VALUES (?, ?, ?)', [userId, 'Liam', 'Springfield Middle']);
-        liam = { id: result.lastID };
+    let noah = await getQuery('SELECT id FROM students WHERE user_id = ? AND name = ?', [userId, 'Noah']);
+    if (!noah) {
+        const result = await runQuery('INSERT INTO students (user_id, name, school) VALUES (?, ?, ?)', [userId, 'Noah', 'Springfield Middle']);
+        noah = { id: result.lastID };
     }
 
     // Clear existing mock data to ensure clean state
-    await runQuery('DELETE FROM courses WHERE student_id IN (?, ?)', [emma.id, liam.id]);
+    await runQuery('DELETE FROM courses WHERE student_id IN (?, ?)', [emma.id, noah.id]);
 
     const emmaCourses = [
         {
@@ -94,7 +94,7 @@ async function runSyncForUser(userId) {
         }
     ];
 
-    const liamCourses = [
+    const noahCourses = [
         {
             name: 'MATH-201 Algebra I', teacher: 'Mr. Baker',
             grade: { percentage: 82.5, letter: 'B-' },
@@ -104,7 +104,8 @@ async function runSyncForUser(userId) {
                 { name: 'Participation', weight: 20, percentage: 85 }
             ],
             assignments: [
-                { name: 'Linear Equations HW', dueDate: getFutureDate(3), score: null, maxScore: 20, isLate: 0 }
+                // Make this due tomorrow so a bullet point appears
+                { name: 'Linear Equations HW', dueDate: getFutureDate(1), score: null, maxScore: 20, isLate: 0 }
             ]
         },
         {
@@ -127,7 +128,9 @@ async function runSyncForUser(userId) {
                 { name: 'Essays', weight: 50, percentage: 86 },
                 { name: 'Vocab Quizzes', weight: 30, percentage: 90 }
             ],
-            assignments: []
+            assignments: [
+                { name: 'Chapter 4 Quiz', dueDate: getFutureDate(4), score: null, maxScore: 50, isLate: 0 }
+            ]
         }
     ];
 
@@ -150,7 +153,7 @@ async function runSyncForUser(userId) {
     };
 
     await insertCourses(emma.id, emmaCourses);
-    await insertCourses(liam.id, liamCourses);
+    await insertCourses(noah.id, noahCourses);
 }
 
 module.exports = {

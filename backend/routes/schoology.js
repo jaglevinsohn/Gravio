@@ -3,6 +3,8 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { runSyncForUser } = require('../services/syncJob');
 
+const { testSchoologyAuth } = require('../services/schoologyClient');
+
 const JWT_SECRET = process.env.JWT_SECRET || 'secret-key-123';
 
 const authMiddleware = (req, res, next) => {
@@ -18,15 +20,23 @@ const authMiddleware = (req, res, next) => {
 
 router.post('/connect', authMiddleware, async (req, res) => {
     const { apiKey, apiSecret } = req.body;
-    // In a real app, store these securely and validate them via Schoology OAuth API
-    // For MVP, trigger mock data sync
 
     try {
+        // Test genuine Schoology API credentials
+        console.log(`Testing Schoology API auth for user ID ${req.userId}...`);
+        const schoologyUser = await testSchoologyAuth(apiKey, apiSecret);
+
+        console.log('\n--- SUCCESSFUL SCHOOLOGY AUTHENTICATION ---');
+        console.log('Real Schoology Profile Retrieved:');
+        console.log(JSON.stringify(schoologyUser, null, 2));
+        console.log('-------------------------------------------\n');
+
+        // Proceed to seed the mock data so the dashboard still loads for the MVP
         await runSyncForUser(req.userId);
-        res.json({ success: true, message: 'Schoology account connected successfully' });
+        res.json({ success: true, message: 'Schoology account connected successfully', schoologyUser });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Failed to sync with Schoology' });
+        console.error('Schoology Auth Error:', err.message || err);
+        res.status(500).json({ error: 'Failed to authenticate with Schoology API: ' + (err.message || 'Unknown error') });
     }
 });
 
