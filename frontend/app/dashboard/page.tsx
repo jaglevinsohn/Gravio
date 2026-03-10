@@ -62,7 +62,7 @@ export default function Dashboard() {
                     setStudents(res.students);
                     setSelectedStudentId(res.students[0].id);
                 } else {
-                    router.push('/connect');
+                    setLoading(false);
                 }
             } catch (err) {
                 console.error(err);
@@ -98,7 +98,40 @@ export default function Dashboard() {
         loadDashboardData();
     }, [selectedStudentId]);
 
-    if (loading && !data) return <div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div></div>;
+    if (loading && !data && students.length > 0) return <div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div></div>;
+
+    if (!loading && students.length === 0) {
+        return (
+            <div className="min-h-screen bg-[var(--color-bg-dark)] flex items-center justify-center px-4">
+                <div className="max-w-md w-full text-center space-y-6 bg-[var(--color-card-dark)] p-10 rounded-2xl shadow-2xl border border-[var(--color-card-border)] relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+                    <div className="absolute -top-10 -right-10 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl"></div>
+                    <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl"></div>
+
+                    <div className="relative">
+                        <div className="flex justify-center">
+                            <div className="h-16 w-16 bg-indigo-500/20 text-indigo-400 rounded-2xl flex items-center justify-center ring-1 ring-indigo-500/50 shadow-inner">
+                                <BookOpen className="h-8 w-8" />
+                            </div>
+                        </div>
+                        <h2 className="mt-6 text-2xl font-bold text-white tracking-tight">Welcome to ClearView!</h2>
+                        <p className="mt-3 text-[var(--color-text-muted)] text-sm leading-relaxed">
+                            You're successfully signed in. To start viewing grades and assignments, please connect your Schoology account when you're ready.
+                        </p>
+                    </div>
+                    <div className="relative pt-4">
+                        <button
+                            onClick={() => router.push('/connect')}
+                            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-[var(--color-bg-dark)] transition-all"
+                        >
+                            Connect Schoology
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     if (!data) return <div className="min-h-screen flex items-center justify-center">No data found</div>;
 
     const { student, courses, upcomingAssignments } = data;

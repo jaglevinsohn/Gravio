@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { fetchWithAuth } from '@/lib/api';
 import { UserPlus } from 'lucide-react';
 import Link from 'next/link';
+import { auth, googleProvider } from '@/lib/firebase';
+import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 
 export default function Register() {
     const router = useRouter();
@@ -19,14 +20,27 @@ export default function Register() {
         setError('');
 
         try {
-            const data = await fetchWithAuth('/auth/register', {
-                method: 'POST',
-                body: JSON.stringify({ email, password }),
-            });
-            localStorage.setItem('token', data.token);
-            router.push('/connect');
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            // Firebase automatically manages the token persistence
+            router.push('/dashboard');
         } catch (err: any) {
-            setError(err.message);
+            console.error('Registration error:', err);
+            // Provide a user-friendly error message from Firebase
+            setError(err.message.replace('Firebase: ', ''));
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleGoogleRegister = async () => {
+        setLoading(true);
+        setError('');
+        try {
+            const userCredential = await signInWithPopup(auth, googleProvider);
+            router.push('/dashboard');
+        } catch (err: any) {
+            console.error('Google register error:', err);
+            setError(err.message.replace('Firebase: ', ''));
         } finally {
             setLoading(false);
         }
@@ -109,8 +123,9 @@ export default function Register() {
                     <div>
                         <button
                             type="button"
-                            onClick={() => console.log('Google login clicked')}
-                            className="group relative w-full flex justify-center items-center py-3 px-4 border border-[var(--color-card-border)] text-sm font-medium rounded-xl text-white bg-[#10141f] hover:bg-[#1a2035] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 focus:ring-offset-[var(--color-bg-dark)]"
+                            onClick={handleGoogleRegister}
+                            disabled={loading}
+                            className="group relative w-full flex justify-center items-center py-3 px-4 border border-[var(--color-card-border)] text-sm font-medium rounded-xl text-white bg-[#10141f] hover:bg-[#1a2035] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 focus:ring-offset-[var(--color-bg-dark)] disabled:opacity-50"
                         >
                             <svg className="h-5 w-5 mr-3" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
