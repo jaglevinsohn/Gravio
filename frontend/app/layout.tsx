@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-    title: "ClearView Dashboard",
+    title: "Gravio Dashboard",
     description: "A simple parent dashboard for monitoring academic performance.",
 };
 

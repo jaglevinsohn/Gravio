@@ -18,7 +18,7 @@ export default function Header({ students, selectedStudentId, setSelectedStudent
                     className="flex items-center gap-2 text-indigo-400 font-bold text-xl cursor-pointer hover:opacity-80 transition"
                 >
                     <CheckCircle2 className="h-6 w-6" />
-                    ClearView
+                    Gravio
                 </div>
 
                 <div className="flex items-center gap-4">

@@ -1,5 +1,5 @@
 // content.js
-// This script runs in the context of the clearview frontend webpage and bridges communication
+// This script runs in the context of the gravio frontend webpage and bridges communication
 
 // Listen for messages from the popup script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {

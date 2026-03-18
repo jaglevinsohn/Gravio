@@ -61,7 +61,7 @@ export default function Login() {
                         </div>
                     </div>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-white tracking-tight">
-                        Welcome to ClearView
+                        Welcome to Gravio
                     </h2>
                     <p className="mt-2 text-center text-sm text-[var(--color-text-muted)]">
                         Log in to view your child's academic progress

@@ -1,0 +1,604 @@
+/Users/jaggerlevinsohn/Desktop/clearview-app/clearview-backend/main.py:31: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+INFO:     Will watch for changes in these directories: ['/Users/jaggerlevinsohn/Desktop/clearview-app/clearview-backend']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [39569] using StatReload
+INFO:     Started server process [39647]
+INFO:     Waiting for application startup.
+2026-03-11 10:17:03,062 - main - INFO - Starting ClearView Backend...
+2026-03-11 10:17:03,063 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-11 10:17:03,063 - apscheduler.scheduler - INFO - Added job "sync_all_active_connections" to job store "default"
+2026-03-11 10:17:03,063 - apscheduler.scheduler - INFO - Scheduler started
+2026-03-11 10:17:03,063 - scheduler.sync_scheduler - INFO - Sync scheduler started.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:56632 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56635 - "OPTIONS /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56636 - "OPTIONS /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56636 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56635 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56636 - "OPTIONS /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56638 - "OPTIONS /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56638 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56636 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56642 - "OPTIONS /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56643 - "OPTIONS /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56643 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56642 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56642 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56643 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56644 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56642 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56642 - "OPTIONS /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56644 - "OPTIONS /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56644 - "GET /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56642 - "GET /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56642 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56644 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56643 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56642 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56642 - "OPTIONS /api/dashboard/course/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56643 - "OPTIONS /api/dashboard/course/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56643 - "GET /api/dashboard/course/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56642 - "GET /api/dashboard/course/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56642 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56643 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56645 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56642 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56642 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56645 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56645 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56642 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56643 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56645 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56645 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56643 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56655 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56656 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56657 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56655 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56660 - "OPTIONS /api/dashboard/course/7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56661 - "OPTIONS /api/dashboard/course/7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56661 - "GET /api/dashboard/course/7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56660 - "GET /api/dashboard/course/7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56670 - "GET /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56672 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56673 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56674 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56672 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56677 - "GET /api/dashboard/course/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56678 - "GET /api/dashboard/course/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56684 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56685 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56686 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56684 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56684 - "OPTIONS /api/dashboard/course/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56686 - "OPTIONS /api/dashboard/course/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56684 - "GET /api/dashboard/course/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56686 - "GET /api/dashboard/course/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56686 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56684 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56687 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56686 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56686 - "OPTIONS /api/dashboard/course/5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56687 - "OPTIONS /api/dashboard/course/5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56687 - "GET /api/dashboard/course/5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56686 - "GET /api/dashboard/course/5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56686 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56687 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56686 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56687 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56689 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56690 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56719 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56720 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56719 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56732 - "GET /api/dashboard/course/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56733 - "GET /api/dashboard/course/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56733 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56732 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56733 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56732 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56732 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56733 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56734 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56736 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56734 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56734 - "GET /api/dashboard/course/5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56736 - "GET /api/dashboard/course/5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56736 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56734 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56736 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56736 - "OPTIONS /api/dashboard/course/3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "OPTIONS /api/dashboard/course/3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "GET /api/dashboard/course/3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56736 - "GET /api/dashboard/course/3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56743 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56744 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56745 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56743 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56743 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56745 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56745 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56743 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56745 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56743 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56752 - "GET /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56755 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56756 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56757 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56755 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56759 - "GET /api/dashboard/course/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56760 - "GET /api/dashboard/course/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56760 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56759 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56762 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56760 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56771 - "OPTIONS /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56772 - "OPTIONS /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56772 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56771 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56771 - "OPTIONS /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56772 - "OPTIONS /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56771 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56771 - "OPTIONS /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56772 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56774 - "OPTIONS /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56774 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56771 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56771 - "OPTIONS /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56774 - "OPTIONS /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56771 - "GET /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56774 - "GET /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56774 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56771 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56775 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56774 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56774 - "OPTIONS /api/dashboard/course/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56775 - "OPTIONS /api/dashboard/course/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56775 - "GET /api/dashboard/course/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56774 - "GET /api/dashboard/course/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56774 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56775 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56771 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56774 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56774 - "GET /api/dashboard/course/7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56771 - "GET /api/dashboard/course/7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56778 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56779 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56780 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56778 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56807 - "GET /api/dashboard/course/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56808 - "GET /api/dashboard/course/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56808 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56807 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56809 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56808 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56808 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56809 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56812 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56813 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56814 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56812 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56931 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56932 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56932 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56931 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56933 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56932 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56932 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56933 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56933 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56932 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56934 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56933 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57003 - "OPTIONS /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57004 - "OPTIONS /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57004 - "GET /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57003 - "GET /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57003 - "OPTIONS /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57004 - "OPTIONS /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57003 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57003 - "OPTIONS /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57004 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57005 - "OPTIONS /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57005 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57004 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57031 - "OPTIONS /api/dashboard/course/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57032 - "OPTIONS /api/dashboard/course/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57031 - "GET /api/dashboard/course/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57032 - "GET /api/dashboard/course/6 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57032 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57031 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57033 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57032 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57036 - "OPTIONS /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57037 - "OPTIONS /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57037 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57036 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'db/models.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [39647]
+INFO:     Started server process [42213]
+INFO:     Waiting for application startup.
+2026-03-11 11:20:40,867 - main - INFO - Starting ClearView Backend...
+2026-03-11 11:20:40,868 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-11 11:20:40,868 - apscheduler.scheduler - INFO - Added job "sync_all_active_connections" to job store "default"
+2026-03-11 11:20:40,868 - apscheduler.scheduler - INFO - Scheduler started
+2026-03-11 11:20:40,868 - scheduler.sync_scheduler - INFO - Sync scheduler started.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'sync/parsers/assignment_parser.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [42213]
+INFO:     Started server process [42221]
+INFO:     Waiting for application startup.
+2026-03-11 11:21:10,873 - main - INFO - Starting ClearView Backend...
+2026-03-11 11:21:10,873 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-11 11:21:10,874 - apscheduler.scheduler - INFO - Added job "sync_all_active_connections" to job store "default"
+2026-03-11 11:21:10,874 - apscheduler.scheduler - INFO - Scheduler started
+2026-03-11 11:21:10,874 - scheduler.sync_scheduler - INFO - Sync scheduler started.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'api/dashboard_routes.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [42221]
+INFO:     Started server process [42231]
+INFO:     Waiting for application startup.
+2026-03-11 11:21:22,256 - main - INFO - Starting ClearView Backend...
+2026-03-11 11:21:22,257 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-11 11:21:22,257 - apscheduler.scheduler - INFO - Added job "sync_all_active_connections" to job store "default"
+2026-03-11 11:21:22,257 - apscheduler.scheduler - INFO - Scheduler started
+2026-03-11 11:21:22,257 - scheduler.sync_scheduler - INFO - Sync scheduler started.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:57086 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57089 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57102 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57103 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57102 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57103 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57103 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57102 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57103 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57103 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57102 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57111 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57112 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57113 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57111 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57111 - "GET /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57113 - "GET /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57113 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57111 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57114 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57113 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57126 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57127 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'sync/parsers/assignment_parser.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [42231]
+INFO:     Started server process [43504]
+INFO:     Waiting for application startup.
+2026-03-11 11:27:09,746 - main - INFO - Starting ClearView Backend...
+2026-03-11 11:27:09,747 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-11 11:27:09,747 - apscheduler.scheduler - INFO - Added job "sync_all_active_connections" to job store "default"
+2026-03-11 11:27:09,747 - apscheduler.scheduler - INFO - Scheduler started
+2026-03-11 11:27:09,747 - scheduler.sync_scheduler - INFO - Sync scheduler started.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:57151 - "OPTIONS /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57152 - "OPTIONS /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57152 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57151 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57152 - "OPTIONS /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57153 - "OPTIONS /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57153 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57152 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57152 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57153 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57152 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57152 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57153 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57169 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57195 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57196 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57196 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57195 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57197 - "OPTIONS /api/dashboard/course/5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57199 - "OPTIONS /api/dashboard/course/5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57197 - "GET /api/dashboard/course/5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57199 - "GET /api/dashboard/course/5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57201 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57202 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57203 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57201 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57219 - "OPTIONS /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57219 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57281 - "OPTIONS /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57282 - "OPTIONS /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57282 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57281 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57282 - "OPTIONS /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57283 - "OPTIONS /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57283 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57282 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'db/models.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [43504]
+INFO:     Started server process [46305]
+INFO:     Waiting for application startup.
+2026-03-11 11:39:32,538 - main - INFO - Starting ClearView Backend...
+2026-03-11 11:39:32,539 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-11 11:39:32,539 - apscheduler.scheduler - INFO - Added job "sync_all_active_connections" to job store "default"
+2026-03-11 11:39:32,539 - apscheduler.scheduler - INFO - Scheduler started
+2026-03-11 11:39:32,539 - scheduler.sync_scheduler - INFO - Sync scheduler started.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'sync/parsers/assignment_parser.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [46305]
+INFO:     Started server process [46782]
+INFO:     Waiting for application startup.
+2026-03-11 11:40:13,448 - main - INFO - Starting ClearView Backend...
+2026-03-11 11:40:13,448 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-11 11:40:13,448 - apscheduler.scheduler - INFO - Added job "sync_all_active_connections" to job store "default"
+2026-03-11 11:40:13,448 - apscheduler.scheduler - INFO - Scheduler started
+2026-03-11 11:40:13,448 - scheduler.sync_scheduler - INFO - Sync scheduler started.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'sync/sync_service.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [46782]
+INFO:     Started server process [46789]
+INFO:     Waiting for application startup.
+2026-03-11 11:40:34,143 - main - INFO - Starting ClearView Backend...
+2026-03-11 11:40:34,144 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-11 11:40:34,144 - apscheduler.scheduler - INFO - Added job "sync_all_active_connections" to job store "default"
+2026-03-11 11:40:34,144 - apscheduler.scheduler - INFO - Scheduler started
+2026-03-11 11:40:34,144 - scheduler.sync_scheduler - INFO - Sync scheduler started.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'api/dashboard_routes.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [46789]
+INFO:     Started server process [46799]
+INFO:     Waiting for application startup.
+2026-03-11 11:41:00,819 - main - INFO - Starting ClearView Backend...
+2026-03-11 11:41:00,820 - apscheduler.scheduler - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-11 11:41:00,820 - apscheduler.scheduler - INFO - Added job "sync_all_active_connections" to job store "default"
+2026-03-11 11:41:00,820 - apscheduler.scheduler - INFO - Scheduler started
+2026-03-11 11:41:00,820 - scheduler.sync_scheduler - INFO - Sync scheduler started.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:57351 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57352 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57351 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57351 - "OPTIONS /api/dashboard/course/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57352 - "OPTIONS /api/dashboard/course/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57352 - "GET /api/dashboard/course/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57351 - "GET /api/dashboard/course/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57351 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57352 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57351 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57352 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57352 - "OPTIONS /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57351 - "OPTIONS /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57352 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57351 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57354 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57355 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57354 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57355 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57355 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57354 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57360 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57361 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57362 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57360 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57360 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57362 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57362 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57360 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57362 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57360 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57360 - "OPTIONS /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57362 - "OPTIONS /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57362 - "GET /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57360 - "GET /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57364 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57365 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57364 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57365 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57365 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57364 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57364 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57365 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57366 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57364 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57368 - "OPTIONS /api/dashboard/course/5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57369 - "OPTIONS /api/dashboard/course/5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57369 - "GET /api/dashboard/course/5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57368 - "GET /api/dashboard/course/5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57368 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57369 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57370 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57368 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57368 - "GET /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57370 - "GET /api/dashboard/course/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57371 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57372 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57373 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57371 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57406 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57407 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57406 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57410 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57411 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57412 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57413 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57414 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57412 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57485 - "OPTIONS /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57486 - "OPTIONS /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57485 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57485 - "OPTIONS /api/dashboard/student/1/assignments HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57485 - "GET /api/dashboard/student/1/assignments HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57486 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57555 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57555 - "OPTIONS /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57556 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57557 - "OPTIONS /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57557 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57555 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57555 - "OPTIONS /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57557 - "OPTIONS /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57555 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57557 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57557 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57555 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57558 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57557 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+2026-03-11 13:10:45,546 - apscheduler.executors.default - WARNING - Run time of job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 13:11:00 PDT)" was missed by 0:29:44.726396
+2026-03-11 13:11:00,821 - apscheduler.executors.default - INFO - Running job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 13:41:00 PDT)" (scheduled at 2026-03-11 13:11:00.820116-07:00)
+2026-03-11 13:11:00,822 - scheduler.sync_scheduler - INFO - Executing scheduled sync for all active connections...
+2026-03-11 13:11:00,833 - apscheduler.executors.default - INFO - Job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 13:41:00 PDT)" executed successfully
+2026-03-11 14:31:59,393 - apscheduler.executors.default - WARNING - Run time of job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 14:41:00 PDT)" was missed by 0:20:58.572931
+2026-03-11 14:41:00,823 - apscheduler.executors.default - INFO - Running job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 15:11:00 PDT)" (scheduled at 2026-03-11 14:41:00.820116-07:00)
+2026-03-11 14:41:00,823 - scheduler.sync_scheduler - INFO - Executing scheduled sync for all active connections...
+2026-03-11 14:41:00,828 - apscheduler.executors.default - INFO - Job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 15:11:00 PDT)" executed successfully
+2026-03-11 16:37:20,367 - apscheduler.executors.default - WARNING - Run time of job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 16:41:00 PDT)" was missed by 0:26:19.546783
+2026-03-11 16:41:00,821 - apscheduler.executors.default - INFO - Running job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 17:11:00 PDT)" (scheduled at 2026-03-11 16:41:00.820116-07:00)
+2026-03-11 16:41:00,821 - scheduler.sync_scheduler - INFO - Executing scheduled sync for all active connections...
+2026-03-11 16:41:00,824 - apscheduler.executors.default - INFO - Job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 17:11:00 PDT)" executed successfully
+2026-03-11 17:11:00,925 - apscheduler.executors.default - INFO - Running job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 17:41:00 PDT)" (scheduled at 2026-03-11 17:11:00.820116-07:00)
+2026-03-11 17:11:00,927 - scheduler.sync_scheduler - INFO - Executing scheduled sync for all active connections...
+2026-03-11 17:11:00,929 - apscheduler.executors.default - INFO - Job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 17:41:00 PDT)" executed successfully
+2026-03-11 17:41:00,822 - apscheduler.executors.default - INFO - Running job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 18:11:00 PDT)" (scheduled at 2026-03-11 17:41:00.820116-07:00)
+2026-03-11 17:41:00,824 - scheduler.sync_scheduler - INFO - Executing scheduled sync for all active connections...
+2026-03-11 17:41:00,829 - apscheduler.executors.default - INFO - Job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 18:11:00 PDT)" executed successfully
+2026-03-11 18:11:00,854 - apscheduler.executors.default - INFO - Running job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 18:41:00 PDT)" (scheduled at 2026-03-11 18:11:00.820116-07:00)
+2026-03-11 18:11:00,856 - scheduler.sync_scheduler - INFO - Executing scheduled sync for all active connections...
+2026-03-11 18:11:00,860 - apscheduler.executors.default - INFO - Job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 18:41:00 PDT)" executed successfully
+2026-03-11 18:41:00,822 - apscheduler.executors.default - INFO - Running job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 19:11:00 PDT)" (scheduled at 2026-03-11 18:41:00.820116-07:00)
+2026-03-11 18:41:00,823 - scheduler.sync_scheduler - INFO - Executing scheduled sync for all active connections...
+2026-03-11 18:41:00,826 - apscheduler.executors.default - INFO - Job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 19:11:00 PDT)" executed successfully
+2026-03-11 19:11:00,869 - apscheduler.executors.default - INFO - Running job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 19:41:00 PDT)" (scheduled at 2026-03-11 19:11:00.820116-07:00)
+2026-03-11 19:11:00,870 - scheduler.sync_scheduler - INFO - Executing scheduled sync for all active connections...
+2026-03-11 19:11:00,873 - apscheduler.executors.default - INFO - Job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 19:41:00 PDT)" executed successfully
+2026-03-11 22:45:44,973 - apscheduler.executors.default - WARNING - Run time of job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 23:11:00 PDT)" was missed by 0:04:44.153118
+2026-03-11 23:11:00,820 - apscheduler.executors.default - INFO - Running job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 23:41:00 PDT)" (scheduled at 2026-03-11 23:11:00.820116-07:00)
+2026-03-11 23:11:00,822 - scheduler.sync_scheduler - INFO - Executing scheduled sync for all active connections...
+2026-03-11 23:11:00,829 - apscheduler.executors.default - INFO - Job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-11 23:41:00 PDT)" executed successfully
+2026-03-11 23:41:00,833 - apscheduler.executors.default - INFO - Running job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-12 00:11:00 PDT)" (scheduled at 2026-03-11 23:41:00.820116-07:00)
+2026-03-11 23:41:00,835 - scheduler.sync_scheduler - INFO - Executing scheduled sync for all active connections...
+2026-03-11 23:41:00,837 - apscheduler.executors.default - INFO - Job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-12 00:11:00 PDT)" executed successfully
+INFO:     127.0.0.1:62621 - "OPTIONS /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62622 - "OPTIONS /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62622 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62621 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62621 - "OPTIONS /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62622 - "OPTIONS /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62622 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62621 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62630 - "OPTIONS /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62631 - "OPTIONS /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62631 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62630 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62630 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62631 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62635 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62630 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62645 - "OPTIONS /api/dashboard/course/3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62646 - "OPTIONS /api/dashboard/course/3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62645 - "GET /api/dashboard/course/3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62646 - "GET /api/dashboard/course/3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62646 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62645 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62646 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62645 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62650 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62651 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62653 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62654 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62655 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62653 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62660 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62660 - "OPTIONS /api/dashboard/student/1/assignments HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62661 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62660 - "GET /api/dashboard/student/1/assignments HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:62660 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62661 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62660 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62661 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62663 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62664 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62670 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62671 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62672 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62670 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62674 - "OPTIONS /api/dashboard/course/7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62675 - "OPTIONS /api/dashboard/course/7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62674 - "GET /api/dashboard/course/7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62675 - "GET /api/dashboard/course/7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62678 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62679 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62678 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62679 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62693 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62694 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62694 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62693 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62695 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62694 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62702 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62703 - "GET /api/dashboard/course/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62708 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62709 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62710 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62708 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+2026-03-12 13:01:43,818 - apscheduler.executors.default - WARNING - Run time of job "sync_all_active_connections (trigger: interval[0:30:00], next run at: 2026-03-12 13:11:00 PDT)" was missed by 0:20:42.997984
+INFO:     127.0.0.1:62715 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62716 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62716 - "GET /api/dashboard/student/1/assignments HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:62716 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62715 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62716 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62715 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62752 - "GET /api/dashboard/course/3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62753 - "GET /api/dashboard/course/3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62753 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62752 - "GET /api/dashboard/students HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62753 - "GET /api/dashboard/student/1/daily-summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62752 - "GET /api/dashboard/student/1/dashboard HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'api/dashboard_routes.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [46799]
+Process SpawnProcess-10:
+Traceback (most recent call last):
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/jaggerlevinsohn/Desktop/clearview-app/clearview-backend/venv/lib/python3.9/site-packages/uvicorn/_subprocess.py", line 73, in subprocess_started
+    sys.stdin = os.fdopen(stdin_fileno)  # pragma: full coverage
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/os.py", line 1023, in fdopen
+    return io.open(fd, *args, **kwargs)
+OSError: [Errno 9] Bad file descriptor

@@ -1,0 +1,15 @@
+INFO:__main__:Setting connection to active
+INFO:__main__:Starting sync process...
+INFO:sync.sync_service:Navigating to exact SSO portal: https://bwscampus.schoology.com/home
+INFO:sync.sync_service:After navigation, landed on: https://bwscampus.schoology.com/home#/?_k=p2rq6h
+INFO:sync.sync_service:Session valid. Extracting data...
+INFO:sync.sync_service:Sync complete for connection 1.
+INFO:__main__:Sync finished
+MOCK DATA EXTRACTED COURSES: 
+('AP CALCULUS AB: F-FR', 92.095)
+('AP ENVIRONMENTAL SCIENCE: B-SE', 96.401006108516)
+('AP HUMAN GEOGRAPHY: C-HF', 88.444444444444)
+('ENGLISH 12: E-JS', 100.0)
+('ENTREPRENEURSHIP: A-ZC, TC', 100.0)
+('Grade Level s: Class of 2026 (12th)', 100.0)
+('MARINE BIOLOGY 2: ECOLOGY & HUMAN IMPACTS ON THE OCEAN: D-DR', 84.459459459459)

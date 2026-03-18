@@ -85,7 +85,7 @@ router.get('/callback', async (req, res) => {
         // Clean up the temporary secret
         delete tokenCache[userId];
 
-        // Redirect the user back to their ClearView dashboard
+        // Redirect the user back to their Gravio dashboard
         res.redirect('http://localhost:3000/dashboard');
 
     } catch (err) {

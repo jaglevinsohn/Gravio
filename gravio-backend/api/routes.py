@@ -50,7 +50,7 @@ async def connect_schoology(request: ConnectRequest, background_tasks: Backgroun
 @router.post("/connect-schoology-extension")
 async def connect_schoology_extension(request: ConnectExtensionRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     """
-    Receives raw cookies directly from the ClearView Chrome Extension.
+    Receives raw cookies directly from the Gravio Chrome Extension.
     Encrypts them, stores them, and triggers initial sync.
     """
     try:

@@ -6,30 +6,30 @@ document.getElementById('sync-btn').addEventListener('click', () => {
   statusEl.textContent = "Extracting session...";
   statusEl.className = "";
 
-// Send a message to the content script in the ClearView tab to get the user ID
+// Send a message to the content script in the Gravio tab to get the user ID
   // Chrome match patterns do not support port numbers, so we match all localhost and filter manually
-  chrome.tabs.query({url: ["http://localhost/*", "https://*.clearview.app/*", "http://*.clearview.app/*"]}, function(tabs) {
+  chrome.tabs.query({url: ["http://localhost/*", "https://*.gravio.app/*", "http://*.gravio.app/*"]}, function(tabs) {
     if (chrome.runtime.lastError || !tabs) {
-      statusEl.textContent = "Please open the ClearView connect page and log in first.";
+      statusEl.textContent = "Please open the Gravio connect page and log in first.";
       statusEl.className = "error";
       btn.disabled = false;
       return;
     }
     
     // Manually filter for port 3000 if it's localhost
-    const clearViewTabs = tabs.filter(t => t.url.includes('localhost:3000') || t.url.includes('clearview.app'));
+    const clearViewTabs = tabs.filter(t => t.url.includes('localhost:3000') || t.url.includes('gravio.app'));
     
     if (clearViewTabs.length === 0) {
-      statusEl.textContent = "Please open the ClearView connect page and log in first.";
+      statusEl.textContent = "Please open the Gravio connect page and log in first.";
       statusEl.className = "error";
       btn.disabled = false;
       return;
     }
     
-    // Send message to the first matching ClearView tab
+    // Send message to the first matching Gravio tab
     chrome.tabs.sendMessage(clearViewTabs[0].id, {action: "getUserIdFromPage"}, function(response) {
       if (chrome.runtime.lastError || !response || !response.userId) {
-        statusEl.textContent = "Please open the ClearView connect page and log in first.";
+        statusEl.textContent = "Please open the Gravio connect page and log in first.";
         statusEl.className = "error";
         btn.disabled = false;
         return;
@@ -47,7 +47,7 @@ document.getElementById('sync-btn').addEventListener('click', () => {
         }
 
         if (bgResponse && bgResponse.success) {
-          statusEl.textContent = "Successfully connected to ClearView!";
+          statusEl.textContent = "Successfully connected to Gravio!";
           statusEl.className = "success";
           btn.textContent = "Connected";
         } else {

@@ -12,8 +12,8 @@ interface TutorialStep {
 const tutorialSteps: TutorialStep[] = [
     {
         targetId: 'tour-outlook',
-        title: 'Welcome to ClearView',
-        description: 'ClearView helps you quickly understand your child’s academic progress and what they should focus on each day.\n\nThe Daily Academic Outlook summarizes recent activity and highlights the most important assignments to work on today.\n\nThis is the fastest way to understand your child’s workload.',
+        title: 'Welcome to Gravio',
+        description: 'Gravio helps you quickly understand your child’s academic progress and what they should focus on each day.\n\nThe Daily Academic Outlook summarizes recent activity and highlights the most important assignments to work on today.\n\nThis is the fastest way to understand your child’s workload.',
     },
     {
         targetId: 'tour-courses',
@@ -38,7 +38,7 @@ const tutorialSteps: TutorialStep[] = [
     {
         targetId: 'tour-home-logo',
         title: 'Return Home Anytime',
-        description: 'Click the ClearView logo at any time to return to this dashboard.\n\nEnjoy using ClearView to stay connected with your student\'s progress!',
+        description: 'Click the Gravio logo at any time to return to this dashboard.\n\nEnjoy using Gravio to stay connected with your student\'s progress!',
     }
 ];
 

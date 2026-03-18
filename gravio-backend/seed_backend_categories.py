@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db.models import Course, Category, Base
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "clearview_backend.db")
+DB_PATH = os.path.join(os.path.dirname(__file__), "gravio_backend.db")
 DATABASE_URL = f"sqlite:///{DB_PATH}"
 
 engine = create_engine(DATABASE_URL)

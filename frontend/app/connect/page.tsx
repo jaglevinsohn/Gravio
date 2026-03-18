@@ -111,7 +111,7 @@ export default function ConnectSchoology() {
                         Secure Connection
                     </h1>
                     <p className="text-[var(--color-text-muted)] text-base sm:text-lg max-w-lg mx-auto leading-relaxed">
-                        To protect your privacy and bypass school restrictions, ClearView uses a secure browser extension to sync your academic data.
+                        To protect your privacy and bypass school restrictions, Gravio uses a secure browser extension to sync your academic data.
                     </p>
                 </div>
 
@@ -125,7 +125,7 @@ export default function ConnectSchoology() {
                             <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-sm border border-blue-500/30">1</div>
                             <div>
                                 <h4 className="text-white font-medium mb-1">Install the Extension</h4>
-                                <p className="text-sm text-[var(--color-text-muted)]">Install the ClearView Chrome extension on your computer. (Currently in developer mode via the `clearview-extension` folder).</p>
+                                <p className="text-sm text-[var(--color-text-muted)]">Install the Gravio Chrome extension on your computer. (Currently in developer mode via the `gravio-extension` folder).</p>
                             </div>
                         </li>
                         <li className="flex gap-4">
@@ -139,7 +139,7 @@ export default function ConnectSchoology() {
                             <div className="flex-shrink-0 w-8 h-8 rounded-full bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold text-sm border border-teal-500/30">3</div>
                             <div>
                                 <h4 className="text-white font-medium mb-1">Click the Extension to Sync</h4>
-                                <p className="text-sm text-[var(--color-text-muted)]">Click the ClearView extension icon in your browser toolbar and press the <strong className="text-white">Connect</strong> button.</p>
+                                <p className="text-sm text-[var(--color-text-muted)]">Click the Gravio extension icon in your browser toolbar and press the <strong className="text-white">Connect</strong> button.</p>
                             </div>
                         </li>
                     </ol>
@@ -190,7 +190,7 @@ export default function ConnectSchoology() {
                     </button>
                     
                     <p className="mt-4 text-center text-xs text-[var(--color-text-muted)] mb-4">
-                        ClearView only reads your grades. We never store your passwords or modify your Schoology data.
+                        Gravio only reads your grades. We never store your passwords or modify your Schoology data.
                     </p>
                     
                     {/* Developer Debug Panel */}

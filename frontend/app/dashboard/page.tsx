@@ -452,7 +452,11 @@ export default function Dashboard() {
                             ) : (
                                 <div className="overflow-y-auto flex-1">
                                     <ul className="divide-y divide-[var(--color-card-border)]/50">
-                                        {upcomingAssignments.map((assignment: Assignment) => (
+                                        {[...upcomingAssignments].sort((a, b) => {
+                                            const timeA = a.due_date ? new Date(a.due_date).getTime() : 0;
+                                            const timeB = b.due_date ? new Date(b.due_date).getTime() : 0;
+                                            return timeA - timeB;
+                                        }).map((assignment: Assignment) => (
                                             <li key={assignment.id} className="p-5 hover:bg-[#1e2230]/80 transition-all cursor-pointer group">
                                                 <div className="flex gap-4 items-start group-hover:translate-x-1 transition-transform">
                                                     <div className="flex-shrink-0 w-14 h-16 bg-[#252b3d] rounded-xl border border-indigo-500/20 shadow-inner flex flex-col items-center justify-center shrink-0">

@@ -72,7 +72,7 @@ export default function Register() {
                         Create an Account
                     </h2>
                     <p className="mt-2 text-center text-sm text-[var(--color-text-muted)]">
-                        Join ClearView to track academic performance
+                        Join Gravio to track academic performance
                     </p>
                 </div>
 

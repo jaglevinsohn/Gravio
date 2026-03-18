@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "ClearView Schoology Sync",
+    "name": "Gravio Schoology Sync",
     "version": "1.0",
-    "description": "Securely syncs your Schoology grades and assignments with the ClearView dashboard.",
+    "description": "Securely syncs your Schoology grades and assignments with the Gravio dashboard.",
     "permissions": [
         "cookies",
         "storage",
@@ -14,14 +14,14 @@
     ],
     "action": {
         "default_popup": "popup.html",
-        "default_title": "ClearView Sync"
+        "default_title": "Gravio Sync"
     },
     "background": {
         "service_worker": "background.js"
     },
     "content_scripts": [
         {
-            "matches": ["http://localhost:3000/*", "https://*.clearview.app/*"],
+            "matches": ["http://localhost:3000/*", "https://*.gravio.app/*"],
             "js": ["content.js"]
         }
     ]

@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
-const dbPath = path.resolve(__dirname, 'clearview.db');
+const dbPath = path.resolve(__dirname, 'gravio.db');
 const db = new sqlite3.Database(dbPath);
 
 // Usage: node seedMockData.js <firebase_uid>

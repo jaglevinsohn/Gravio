@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 # Initialize database tables
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="ClearView Schoology Sync MVP")
+app = FastAPI(title="Gravio Schoology Sync MVP")
 
 # Configure CORS for local development
 app.add_middleware(
@@ -30,12 +30,12 @@ app.include_router(dashboard_router, prefix="/api/dashboard")
 
 @app.on_event("startup")
 async def startup_event():
-    logger.info("Starting ClearView Backend...")
+    logger.info("Starting Gravio Backend...")
     start_scheduler()
 
 @app.get("/health")
 def read_health():
-    return {"status": "ok", "service": "clearview-schoology-sync"}
+    return {"status": "ok", "service": "gravio-schoology-sync"}
 
 # For running directly with `python main.py`
 if __name__ == "__main__":
