@@ -22,6 +22,19 @@ def get_student_dashboard(student_id: int, user_id: str = "1", db: Session = Dep
     
     courses_db = db.query(Course).filter(Course.student_id == student.id).all()
     courses_out = []
+    
+    # Eager load cats and assigns to prevent N+1
+    all_course_ids = [c.id for c in courses_db]
+    all_categories = db.query(Category).filter(Category.course_id.in_(all_course_ids)).all()
+    all_assignments = db.query(Assignment).filter(Assignment.course_id.in_(all_course_ids)).all()
+    
+    categories_by_course = {}
+    for cat in all_categories:
+        categories_by_course.setdefault(cat.course_id, []).append(cat)
+        
+    assignments_by_course = {}
+    for a in all_assignments:
+        assignments_by_course.setdefault(a.course_id, []).append(a)
     upcoming_assignments = []
     
     total_gpa_points = 0.0
@@ -38,7 +51,7 @@ def get_student_dashboard(student_id: int, user_id: str = "1", db: Session = Dep
     }
     
     for c in courses_db:
-        cats = db.query(Category).filter(Category.course_id == c.id).all()
+        cats = categories_by_course.get(c.id, [])
         courses_out.append({
             "id": c.id,
             "name": c.title,
@@ -53,7 +66,7 @@ def get_student_dashboard(student_id: int, user_id: str = "1", db: Session = Dep
             total_gpa_points += gpa_scale[c.letter_grade]
             valid_gpa_courses += 1
             
-        assigns = db.query(Assignment).filter(Assignment.course_id == c.id).all()
+        assigns = assignments_by_course.get(c.id, [])
         for a in assigns:
             # Show in "Upcoming Deadlines" if it's not submitted and it's either upcoming or overdue
             if a.submission_status == "not_submitted" and a.timeliness_status in ["upcoming", "overdue"]:
@@ -71,11 +84,53 @@ def get_student_dashboard(student_id: int, user_id: str = "1", db: Session = Dep
                 
     calculated_gpa = round(total_gpa_points / valid_gpa_courses, 2) if valid_gpa_courses > 0 else 0.0
     
+    # --- Grade Trend Calculation (GPA + Behavioral Focus) ---
+    at_risk_count = 0
+    # Evaluate across all assignments for the student
+    for c_id, assigns in assignments_by_course.items():
+        for a in assigns:
+            # Check for overdue or missing assignments
+            is_missing_or_zero = a.submission_status == "missing" or (a.score == 0 and a.grading_status == "graded")
+            is_overdue = a.timeliness_status == "overdue"
+            
+            if is_missing_or_zero or is_overdue:
+                at_risk_count += 1
+
+    grade_trend = {
+        "status": "Strong",
+        "direction": "up",
+        "color": "emerald" # Will map to tailwind class or hex
+    }
+    
+    # Logic: High GPA + Consistency = Strong
+    # Logic: Slipping GPA OR some missing work = Caution
+    # Logic: Low GPA OR lots of missing work = At Risk
+    
+    if calculated_gpa < 2.5 or at_risk_count > 3:
+        grade_trend = {
+            "status": "At Risk",
+            "direction": "down",
+            "color": "rose"
+        }
+    elif calculated_gpa < 3.3 or at_risk_count > 0:
+         grade_trend = {
+            "status": "Caution",
+            "direction": "flat",
+            "color": "amber"
+        }
+    elif calculated_gpa >= 3.8 and at_risk_count == 0:
+        grade_trend = {
+            "status": "Excelling",
+            "direction": "up",
+            "color": "emerald"
+        }
+
     return {
         "student": {"id": student.id, "name": student.name},
         "courses": courses_out,
         "upcomingAssignments": upcoming_assignments,
-        "gpa": calculated_gpa
+        "gpa": calculated_gpa,
+        "gradeTrend": grade_trend
     }
 
 @router.get("/student/{student_id}/daily-summary")
@@ -112,25 +167,40 @@ def get_daily_summary(student_id: int, user_id: str = "1", db: Session = Depends
                 course_name = course_dict.get(a.course_id, "Unknown Course")
                 days_until_due = (a_date - today).days
                 
-                # Format: "Assignment Name - Course Name"
-                task_str = f"{a.title} - {course_name}"
+                # Format: "Study/complete Assignment Name for Course Name"
+                clean_course_name = course_name.split(':')[0].split('-')[0].strip()
                 
-                if days_until_due < 0:
-                    overdue_tasks.append(f"[OVERDUE] {task_str}")
-                elif days_until_due == 0:
+                # Check for keywords to make the sentence read better
+                action_verb = "Complete"
+                title_lower = a.title.lower()
+                if any(word in title_lower for word in ["test", "quiz", "exam", "assessment"]):
+                    action_verb = "Study for"
+                elif any(word in title_lower for word in ["reading", "chapter"]):
+                    action_verb = "Read"
+                elif "project" in title_lower:
+                    action_verb = "Work on"
+                    
+                task_str = f"{action_verb} {a.title} for {clean_course_name}"
+                
+                if days_until_due == 0:
                     today_tasks.append(f"{task_str} (Due Today)")
-                elif 0 < days_until_due <= 7:
-                    upcoming_tasks.append(f"{task_str} (Due in {days_until_due} days)")
+                elif days_until_due == 1:
+                    upcoming_tasks.append((days_until_due, f"{task_str} (Due in 1 day)"))
+                elif 1 < days_until_due <= 7:
+                    upcoming_tasks.append((days_until_due, f"{task_str} (Due in {days_until_due} days)"))
             except Exception:
                 # Ignore invalid dates
                 pass
 
-    # Prioritize Overdue, then Today, then Upcoming
-    focus_tasks = overdue_tasks + today_tasks + upcoming_tasks
+    # Sort upcoming tasks by days until due (ascending)
+    upcoming_tasks.sort(key=lambda x: x[0])
+    sorted_upcoming_strings = [task[1] for task in upcoming_tasks]
+
+    # Focus only on Today and Upcoming, ordered by urgency
+    focus_tasks = today_tasks + sorted_upcoming_strings
     
-    if len(today_tasks) > 0 or len(overdue_tasks) > 0:
-        tasks_count = len(today_tasks) + len(overdue_tasks)
-        recent_activity = f"You have {tasks_count} assignment(s) due today or overdue!"
+    if len(today_tasks) > 0:
+        recent_activity = f"You have {len(today_tasks)} assignment(s) due today!"
     elif len(upcoming_tasks) > 0:
         recent_activity = "You're caught up for today, but you have assignments coming up soon."
     else:
@@ -142,6 +212,35 @@ def get_daily_summary(student_id: int, user_id: str = "1", db: Session = Depends
             "focus_tasks": focus_tasks[:5] # Limit to top 5 most urgent tasks
         }
     }
+
+@router.get("/student/{student_id}/assignments")
+def get_student_assignments(student_id: int, user_id: str = "1", db: Session = Depends(get_db)):
+    student = db.query(Student).filter(Student.id == student_id).first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+        
+    courses = db.query(Course).filter(Course.student_id == student.id).all()
+    if not courses:
+        return {"assignments": []}
+        
+    course_ids = [c.id for c in courses]
+    course_dict = {c.id: c.title for c in courses}
+    
+    assignments = db.query(Assignment).filter(Assignment.course_id.in_(course_ids)).all()
+    
+    result = []
+    for a in assignments:
+        result.append({
+            "id": a.id,
+            "name": a.title,
+            "course_name": course_dict.get(a.course_id, "Unknown Course"),
+            "due_date": a.due_date,
+            "score": a.score,
+            "max_score": a.max_score,
+            "is_late": a.timeliness_status in ["overdue", "late_submitted"]
+        })
+        
+    return {"assignments": result}
 
 @router.get("/course/{course_id}")
 def get_course_detail(course_id: int, user_id: str = "1", db: Session = Depends(get_db)):

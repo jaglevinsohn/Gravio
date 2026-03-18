@@ -55,15 +55,17 @@ export default function CalendarPage() {
                     setStudents(res.students);
                     setSelectedStudentId(res.students[0].id);
                 } else {
+                    setLoading(false);
                     router.push('/connect');
                 }
             } catch (err) {
                 console.error(err);
+                setLoading(false);
                 router.push('/login');
             }
         };
         loadStudents();
-    }, [router]);
+    }, [router, userId]);
 
     useEffect(() => {
         if (!selectedStudentId || !userId) return;
@@ -80,7 +82,7 @@ export default function CalendarPage() {
             }
         };
         loadAssignments();
-    }, [selectedStudentId]);
+    }, [selectedStudentId, userId]);
 
     const getDaysInMonth = (year: number, month: number) => {
         return new Date(year, month + 1, 0).getDate();
@@ -111,13 +113,20 @@ export default function CalendarPage() {
         days.push(i);
     }
 
+    const remainingDays = 7 - (days.length % 7);
+    if (remainingDays < 7) {
+        for (let i = 0; i < remainingDays; i++) {
+            days.push(null);
+        }
+    }
+
     const getAssignmentsForDay = (day: number | null) => {
         if (!day) return [];
         const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        return assignments.filter(a => a.due_date === dateString);
+        return assignments.filter(a => a.due_date && a.due_date.startsWith(dateString));
     };
 
-    if (loading && assignments.length === 0) return <div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div></div>;
+    if (loading) return <div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div></div>;
 
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -161,24 +170,28 @@ export default function CalendarPage() {
                     </div>
 
                     {/* Days Grid */}
-                    <div className="grid grid-cols-7 flex-1 auto-rows-fr">
+                    <div className="grid grid-cols-7 auto-rows-fr flex-1 min-h-0">
                         {days.map((day, idx) => {
                             const dayAssignments = getAssignmentsForDay(day);
                             const isToday = day === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear();
 
+                            // Determine if this cell is in the last row to avoid double bottom borders
+                            const isLastRow = idx >= days.length - 7;
+                            const borderClasses = `border-r border-b border-[var(--color-card-border)] ${isLastRow ? 'border-b-0' : ''} ${(idx + 1) % 7 === 0 ? 'border-r-0' : ''}`;
+
                             return (
-                                <div key={idx} className={`border-b border-r border-[#1e2436]/50 p-2 relative min-h-[120px] transition-colors hover:bg-[#1e2436]/30 ${!day ? 'bg-[#0d1117]/30' : ''}`}>
+                                <div key={idx} className={`${borderClasses} p-2 relative transition-colors hover:bg-[#1e2436]/30 ${!day ? 'bg-[#0d1117]/30' : ''} flex flex-col overflow-hidden`}>
                                     {day && (
                                         <>
-                                            <div className="flexjustify-between items-start mb-2">
+                                            <div className="flex justify-between items-start mb-2 shrink-0">
                                                 <span className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-sm font-medium ${isToday ? 'bg-indigo-500 text-white shadow-md' : 'text-gray-300'}`}>
                                                     {day}
                                                 </span>
                                             </div>
-                                            <div className="space-y-1.5 mt-2">
+                                            <div className="space-y-1.5 flex-1 overflow-y-auto min-h-0 pr-1 pb-1 scrollbar-thin scrollbar-thumb-indigo-500/20 scrollbar-track-transparent">
                                                 {dayAssignments.map(a => (
-                                                    <div key={a.id} className="text-xs px-2 py-1.5 rounded-md bg-indigo-500/20 border border-indigo-500/40 text-indigo-200 truncate cursor-pointer hover:bg-indigo-500/30 hover:border-indigo-400/50 transition-all shadow-sm group relative">
-                                                        <span className="font-bold text-indigo-100">{a.course_name.split(' ')[0]}</span>: {a.name}
+                                                    <div key={a.id} className="text-[11px] leading-tight px-2 py-1.5 rounded-md bg-indigo-500/20 border border-indigo-500/40 text-indigo-200 cursor-pointer hover:bg-indigo-500/30 hover:border-indigo-400/50 transition-all shadow-sm group relative">
+                                                        <span className="font-bold text-indigo-100">{a.course_name.split(':')[0].split('-')[0].trim()}</span> <span className="opacity-90">{a.name}</span>
                                                     </div>
                                                 ))}
                                             </div>

@@ -15,7 +15,7 @@ async def dump_schoology_dom():
     db_gen = get_db()
     db = next(db_gen)
     
-    connection = db.query(SchoologyConnection).filter(SchoologyConnection.user_id == USER_ID).first()
+    connection = db.query(SchoologyConnection).first()
     if not connection:
         print("No active connection found!")
         return
@@ -40,7 +40,12 @@ async def dump_schoology_dom():
             user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
         )
         
-        await context.add_cookies(cookies)
+        clean_cookies = []
+        for c in cookies:
+            if "sameSite" in c and c["sameSite"] not in ["Strict", "Lax", "None"]:
+                del c["sameSite"]
+            clean_cookies.append(c)
+        await context.add_cookies(clean_cookies)
         page = await context.new_page()
         
         await page.goto(target_url, wait_until="networkidle")
@@ -52,6 +57,18 @@ async def dump_schoology_dom():
             print("Session failed, redirected to login.")
             await browser.close()
             return
+
+        print("Expanding all courses...")
+        await page.evaluate('''() => {
+            const rows = document.querySelectorAll(".period-row, .folder-row, .category-row");
+            rows.forEach(row => {
+                const isExpanded = row.classList.contains('active') || row.classList.contains('expanded') || row.getAttribute('aria-expanded') === 'true';
+                if (!isExpanded) {
+                    row.click();
+                }
+            });
+        }''')
+        await page.wait_for_timeout(3000)
 
         print("Scraping full HTML...")
         html = await page.content()

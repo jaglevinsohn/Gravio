@@ -22,10 +22,12 @@ def classify_score(text: str) -> str:
         return "status"
     return "status" # fallback
 
-async def parse_assignments(page: Page, external_course_id: str, target_domain: str) -> list:
+async def parse_assignments(page: Page, external_course_id: str, target_domain: str) -> tuple[list, list]:
     """
     Extracts the assignments for a specific course from the grades page.
-    Returns a list of dicts: [{'title': 'Math HW', 'due_date': '2026-03-10', 'status': 'missing'}]
+    Returns a tuple (assignments, categories):
+    - assignments: [{'title': 'Math HW', 'due_date': '2026-03-10', 'status': 'missing'}]
+    - categories: [{'name': 'Homework', 'weight': 20.0, 'percentage': 89.5}]
     """
     try:
         # We should already be on the grades page from parsing courses, but verify:
@@ -34,9 +36,10 @@ async def parse_assignments(page: Page, external_course_id: str, target_domain: 
         
         # Scrape the assignment list
         assignments = []
+        categories = []
         course_container = await page.query_selector(f"#s-js-gradebook-course-{external_course_id}")
         if not course_container:
-            return []
+            return [], []
             
         # Recursive expansion wrapper - much faster via Page.evaluate
         async def expand_all():
@@ -80,6 +83,58 @@ async def parse_assignments(page: Page, external_course_id: str, target_domain: 
             });
         }''')
             
+        # --- NEW CATEGORY PARSER ---
+        cat_rows = await course_container.query_selector_all(".category-row")
+        seen_cat_names = set()
+        for cr in cat_rows:
+            try:
+                title_el = await cr.query_selector(".title-column .title")
+                if not title_el:
+                    title_el = await cr.query_selector(".title")
+                
+                title_text = await title_el.text_content() if title_el else ""
+                
+                weight = None
+                name = title_text.strip()
+                m_weight = re.search(r'\(([\d.]+)%\)', title_text)
+                if m_weight:
+                    try:
+                        weight = float(m_weight.group(1))
+                        name = title_text[:m_weight.start()].strip()
+                    except ValueError:
+                        pass
+                
+                # Some Schoology layouts append visually hidden "Category" text
+                if name.lower().endswith("category"):
+                    name = name[:-8].strip()
+                
+                grade_el = await cr.query_selector(".rounded-grade")
+                if not grade_el:
+                    grade_el = await cr.query_selector(".awarded-grade")
+                
+                percentage = None
+                if grade_el:
+                    grade_attr = await grade_el.get_attribute("title")
+                    grade_text = grade_attr if grade_attr else await grade_el.text_content()
+                    if grade_text:
+                        m_grade = re.search(r'([\d.]+)', grade_text)
+                        if m_grade:
+                            try:
+                                percentage = float(m_grade.group(1))
+                            except ValueError:
+                                pass
+                
+                if name and name not in seen_cat_names:
+                    seen_cat_names.add(name)
+                    categories.append({
+                        "name": name,
+                        "weight": weight,
+                        "percentage": percentage
+                    })
+            except Exception as e:
+                logger.warning(f"Failed to parse a category for course {external_course_id}: {e}")
+
+        # --- ASSIGNMENT PARSER ---
         item_rows = await course_container.query_selector_all(".item-row")
         
         seen = set()
@@ -245,8 +300,8 @@ async def parse_assignments(page: Page, external_course_id: str, target_domain: 
                 "category": "Assignment"
             })
             
-        return assignments
+        return assignments, categories
         
     except Exception as e:
         logger.error(f"Error parsing assignments for {external_course_id}: {e}")
-        return []
+        return [], []

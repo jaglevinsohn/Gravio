@@ -3,7 +3,7 @@ import datetime
 import asyncio
 from playwright.async_api import async_playwright
 from sqlalchemy.orm import Session
-from db.models import SchoologyConnection, Student, Course, Assignment, SyncLog
+from db.models import SchoologyConnection, Student, Course, Category, Assignment, SyncLog
 from auth.encryption import decrypt_cookies
 from sync.parsers import parse_students, parse_courses, parse_assignments
 
@@ -122,10 +122,10 @@ async def run_sync_for_connection(db: Session, connection_id: int):
                         
                     # Extract assignments for each course
                     try:
-                        parsed_assignments = await asyncio.wait_for(parse_assignments(page, course.external_course_id, target_domain), timeout=90.0)
+                        parsed_assignments, parsed_categories = await asyncio.wait_for(parse_assignments(page, course.external_course_id, target_domain), timeout=90.0)
                     except asyncio.TimeoutError:
                         logger.warning(f"Timeout parsing assignments for course {course.external_course_id}")
-                        parsed_assignments = []
+                        parsed_assignments, parsed_categories = [], []
                         
                     sync_log.assignments_imported += len(parsed_assignments)
                     
@@ -157,6 +157,16 @@ async def run_sync_for_connection(db: Session, connection_id: int):
                         if not assignment:
                             assignment = Assignment(course_id=course.id, **a_data)
                             db.add(assignment)
+                    
+                    # Upsert Categories
+                    for cat_data in parsed_categories:
+                        category = db.query(Category).filter(Category.course_id == course.id, Category.name == cat_data["name"]).first()
+                        if category:
+                            category.weight = cat_data["weight"]
+                            category.percentage = cat_data["percentage"]
+                        else:
+                            category = Category(course_id=course.id, **cat_data)
+                            db.add(category)
             
             # 4. Update Success State
             connection.connection_status = "active"

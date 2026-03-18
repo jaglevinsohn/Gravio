@@ -26,7 +26,7 @@ class Course(Base):
     __tablename__ = "courses"
 
     id = Column(Integer, primary_key=True, index=True)
-    student_id = Column(Integer, ForeignKey("students.id"))
+    student_id = Column(Integer, ForeignKey("students.id"), index=True)
     external_course_id = Column(String)
     title = Column(String)
     teacher_name = Column(String)
@@ -38,7 +38,7 @@ class Assignment(Base):
     __tablename__ = "assignments"
 
     id = Column(Integer, primary_key=True, index=True)
-    course_id = Column(Integer, ForeignKey("courses.id"))
+    course_id = Column(Integer, ForeignKey("courses.id"), index=True)
     external_assignment_id = Column(String)
     title = Column(String)
     due_date = Column(String, nullable=True) # ISO Date string or None
@@ -57,7 +57,7 @@ class Category(Base):
     __tablename__ = "categories"
 
     id = Column(Integer, primary_key=True, index=True)
-    course_id = Column(Integer, ForeignKey("courses.id"))
+    course_id = Column(Integer, ForeignKey("courses.id"), index=True)
     name = Column(String)
     weight = Column(Float)
     percentage = Column(Float, nullable=True)

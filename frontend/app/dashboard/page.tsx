@@ -287,13 +287,26 @@ export default function Dashboard() {
                     </div>
 
                     <div className="bg-[var(--color-card-dark)] rounded-2xl p-5 border border-[var(--color-card-border)] shadow-md flex transition-all hover:border-emerald-500/50 hover:shadow-lg hover:-translate-y-1 group">
-                        <div className="h-10 w-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400/70 mr-4 transition-colors group-hover:bg-emerald-500/20 group-hover:text-emerald-400">
+                        <div className={`h-10 w-10 rounded-xl flex items-center justify-center mr-4 transition-colors ${
+                            data.gradeTrend?.color === 'emerald' ? 'bg-emerald-500/10 text-emerald-400/70 group-hover:bg-emerald-500/20 group-hover:text-emerald-400' :
+                            data.gradeTrend?.color === 'amber' ? 'bg-amber-500/10 text-amber-400/70 group-hover:bg-amber-500/20 group-hover:text-amber-400' :
+                            data.gradeTrend?.color === 'rose' ? 'bg-rose-500/10 text-rose-400/70 group-hover:bg-rose-500/20 group-hover:text-rose-400' :
+                            'bg-emerald-500/10 text-emerald-400/70 group-hover:bg-emerald-500/20 group-hover:text-emerald-400'
+                        }`}>
                             <TrendingUp className="h-5 w-5" />
                         </div>
                         <div>
                             <div className="text-xs font-semibold text-[var(--color-text-muted)] tracking-wider">GRADE TREND</div>
-                            <div className="text-2xl font-bold mt-2 text-emerald-400 tracking-tight flex items-center">
-                                <span className="transform -rotate-45 mr-1 text-lg">→</span> Strong
+                            <div className={`text-2xl font-bold mt-2 tracking-tight flex items-center ${
+                                data.gradeTrend?.color === 'emerald' ? 'text-emerald-400' :
+                                data.gradeTrend?.color === 'amber' ? 'text-amber-400' :
+                                data.gradeTrend?.color === 'rose' ? 'text-rose-400' :
+                                'text-emerald-400'
+                            }`}>
+                                <span className={`transform ${
+                                    data.gradeTrend?.direction === 'up' ? '-rotate-45' : 
+                                    data.gradeTrend?.direction === 'down' ? 'rotate-45' : ''
+                                } mx-1 text-lg`}>→</span> {data.gradeTrend?.status || 'Strong'}
                             </div>
                         </div>
                     </div>
@@ -335,7 +348,7 @@ export default function Dashboard() {
                     </div>
                 )}
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Main Courses Area */}
                     <div className="lg:col-span-2 space-y-6">
                         <h2 className="text-xl font-bold text-gray-100/90 tracking-tight">Academic Overview</h2>
@@ -422,58 +435,63 @@ export default function Dashboard() {
                     </div>
 
                     {/* Sidebar Area */}
-                    <div id="tour-deadlines" className="space-y-6">
-                        <div className="flex items-center justify-between">
-                            <h2 className="text-xl font-bold">Upcoming Deadlines</h2>
-                            <Calendar className="h-5 w-5 text-indigo-400" />
-                        </div>
+                    <div id="tour-deadlines" className="h-[500px] lg:h-auto lg:relative">
+                        <div className="flex flex-col space-y-6 h-full lg:absolute lg:inset-0">
+                            <div className="flex items-center justify-between shrink-0">
+                                <h2 className="text-xl font-bold">Upcoming Deadlines</h2>
+                                <Calendar className="h-5 w-5 text-indigo-400" />
+                            </div>
 
-                        <div className="bg-[var(--color-card-dark)] border border-[var(--color-card-border)] rounded-2xl overflow-hidden shadow-lg">
+                            <div className="bg-[var(--color-card-dark)] border border-[var(--color-card-border)] rounded-2xl shadow-lg flex-1 overflow-hidden flex flex-col min-h-0">
                             {(!upcomingAssignments || upcomingAssignments.length === 0) ? (
-                                <div className="p-8 text-center text-[var(--color-text-muted)] flex flex-col items-center justify-center">
+                                <div className="p-8 text-center text-[var(--color-text-muted)] flex flex-col items-center justify-center flex-1">
                                     <CheckCircle2 className="h-8 w-8 mb-3 text-emerald-500/50" />
                                     <p className="text-sm">No upcoming assignments right now!</p>
                                     <p className="text-xs mt-1 opacity-70">Awesome job staying on top of work.</p>
                                 </div>
                             ) : (
-                                <ul className="divide-y divide-[var(--color-card-border)]/50">
-                                    {upcomingAssignments.map((assignment: Assignment) => (
-                                        <li key={assignment.id} className="p-5 hover:bg-[#1e2230]/80 transition-all cursor-pointer group">
-                                            <div className="flex gap-4 items-start group-hover:translate-x-1 transition-transform">
-                                                <div className="flex-shrink-0 w-14 h-16 bg-[#252b3d] rounded-xl border border-indigo-500/20 shadow-inner flex flex-col items-center justify-center shrink-0">
-                                                    <span className="text-[10px] text-indigo-300 uppercase font-bold tracking-wider mb-1">
-                                                        {assignment.due_date ? new Date(assignment.due_date).toLocaleDateString('en-US', { month: 'short' }) : 'ASAP'}
-                                                    </span>
-                                                    <span className="text-xl font-black text-white leading-none">
-                                                        {assignment.due_date ? new Date(assignment.due_date).getDate() : '!'}
-                                                    </span>
-                                                </div>
-                                                <div className="flex-1 min-w-0 pt-1">
-                                                    <h4 className="text-[15px] font-bold truncate mb-1 text-gray-100">{cleanAssignmentName(assignment.name)}</h4>
-                                                    <div className="text-xs text-[var(--color-text-muted)] font-medium truncate mb-2.5">
-                                                        {assignment.course_name.split(' ').slice(1).join(' ')}
+                                <div className="overflow-y-auto flex-1">
+                                    <ul className="divide-y divide-[var(--color-card-border)]/50">
+                                        {upcomingAssignments.map((assignment: Assignment) => (
+                                            <li key={assignment.id} className="p-5 hover:bg-[#1e2230]/80 transition-all cursor-pointer group">
+                                                <div className="flex gap-4 items-start group-hover:translate-x-1 transition-transform">
+                                                    <div className="flex-shrink-0 w-14 h-16 bg-[#252b3d] rounded-xl border border-indigo-500/20 shadow-inner flex flex-col items-center justify-center shrink-0">
+                                                        <span className="text-[10px] text-indigo-300 uppercase font-bold tracking-wider mb-1">
+                                                            {assignment.due_date ? new Date(assignment.due_date).toLocaleDateString('en-US', { month: 'short' }) : 'ASAP'}
+                                                        </span>
+                                                        <span className="text-xl font-black text-white leading-none">
+                                                            {assignment.due_date ? new Date(assignment.due_date).getDate() : '!'}
+                                                        </span>
                                                     </div>
-                                                    <div className="flex items-center gap-2">
-                                                        {assignment.timeliness_status === 'overdue' && (
-                                                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-500 border border-rose-500/20 shadow-sm">
-                                                                Overdue
-                                                            </span>
-                                                        )}
-                                                        {assignment.timeliness_status === 'upcoming' && (
-                                                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-500 border border-amber-500/20 shadow-sm">
-                                                                Upcoming
-                                                            </span>
-                                                        )}
+                                                    <div className="flex-1 min-w-0 pt-1">
+                                                        <h4 className="text-[15px] font-bold truncate mb-1 text-gray-100">{cleanAssignmentName(assignment.name)}</h4>
+                                                        <div className="text-xs text-[var(--color-text-muted)] font-medium truncate mb-2.5">
+                                                            {assignment.course_name.split(' ').slice(1).join(' ')}
+                                                        </div>
+                                                        <div className="flex items-center gap-2">
+                                                            {assignment.timeliness_status === 'overdue' && (
+                                                                <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-500 border border-rose-500/20 shadow-sm">
+                                                                    Overdue
+                                                                </span>
+                                                            )}
+                                                            {assignment.timeliness_status === 'upcoming' && (
+                                                                <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-500 border border-amber-500/20 shadow-sm">
+                                                                    Upcoming
+                                                                </span>
+                                                            )}
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </li>
-                                    ))}
-                                    <li className="p-4 text-center bg-[#151924]/80 hover:bg-[#1a1f2e] transition-colors">
-                                        <button id="tour-calendar" onClick={() => router.push('/calendar')} className="text-xs font-bold uppercase tracking-wider text-indigo-400 hover:text-indigo-300 transition w-full h-full">View full calendar →</button>
-                                    </li>
-                                </ul>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
                             )}
+                                {/* Pinned Bottom Button */}
+                                <div className="p-4 text-center bg-[#151924]/80 hover:bg-[#1a1f2e] transition-colors border-t border-[var(--color-card-border)]/50 mt-auto shrink-0">
+                                    <button id="tour-calendar" onClick={() => router.push('/calendar')} className="text-xs font-bold uppercase tracking-wider text-indigo-400 hover:text-indigo-300 transition w-full">View full calendar →</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

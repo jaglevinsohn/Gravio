@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, use } from 'react';
+import { useEffect, useState, use, useMemo } from 'react';
 import { fetchWithAuth } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
@@ -26,6 +26,72 @@ interface Category {
     weight: number;
     percentage: number | null;
 }
+
+const getGradeColor = (letter: string) => {
+    if (!letter) return 'text-gray-400';
+    if (letter.startsWith('A')) return 'text-emerald-400';
+    if (letter.startsWith('B')) return 'text-blue-400';
+    if (letter.startsWith('C')) return 'text-amber-400';
+    return 'text-red-400';
+};
+
+const formatCourseName = (fullName: string) => {
+    let name = fullName.split(':')[0].split('-')[0].trim();
+    const words = name.split(' ');
+    if (words.length <= 1) return { context: 'COURSE', subject: name };
+
+    const prefixes = ['AP', 'HONORS', 'IB', 'ADVANCED', 'INTRO', 'PE', 'PHYSICAL'];
+    if (prefixes.includes(words[0].toUpperCase())) {
+        return {
+            context: words[0].toUpperCase(),
+            subject: words.slice(1).join(' ')
+        };
+    }
+    
+    return { context: 'CLASS', subject: name };
+};
+
+const cleanAssignmentName = (name: string) => {
+    let cleanName = name.trim();
+    const suffixes = ["assignment", "assessment", "discussion", "external-tool-link", "link"];
+    for (const suffix of suffixes) {
+        if (cleanName.toLowerCase().endsWith(suffix)) {
+            cleanName = cleanName.substring(0, cleanName.length - suffix.length).trim();
+        }
+    }
+    return cleanName;
+};
+
+const parseSchoologyDate = (dateStr: string) => {
+    if (!dateStr) return null;
+    try {
+        let parsedDate = new Date(dateStr);
+        if (isNaN(parsedDate.getTime())) {
+            parsedDate = new Date(`${dateStr} ${new Date().getFullYear()}`);
+        }
+        if (isNaN(parsedDate.getTime())) return null;
+        return parsedDate;
+    } catch {
+        return null;
+    }
+};
+
+const getScoreColor = (scoreType: string | null, score: number | null, maxScore: number | null, text: string | null) => {
+    if (scoreType === 'letter' && text) {
+        if (text.startsWith('A')) return 'text-emerald-400';
+        if (text.startsWith('B')) return 'text-blue-400';
+        if (text.startsWith('C')) return 'text-amber-400';
+        return 'text-red-400';
+    }
+    if (score !== null && maxScore && maxScore > 0) {
+        const pct = score / maxScore;
+        if (pct >= 0.9) return 'text-emerald-400';
+        if (pct >= 0.8) return 'text-[#38bdf8]'; // Custom blue
+        if (pct >= 0.7) return 'text-amber-400';
+        return 'text-red-400';
+    }
+    return 'text-gray-400';
+};
 
 export default function CourseDetail({ params }: { params: Promise<{ id: string }> }) {
     const resolvedParams = use(params);
@@ -58,86 +124,56 @@ export default function CourseDetail({ params }: { params: Promise<{ id: string 
             }
         };
         loadData();
-    }, [resolvedParams.id]);
+    }, [resolvedParams.id, userId]);
 
-    if (loading) return <div className="min-h-screen bg-[var(--color-bg-dark)] flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div></div>;
-    if (!data) return <div className="min-h-screen bg-[var(--color-bg-dark)] flex items-center justify-center">No data found</div>;
-
-    const { course, categories, assignments } = data;
-
-    const getGradeColor = (letter: string) => {
-        if (!letter) return 'text-gray-400';
-        if (letter.startsWith('A')) return 'text-emerald-400';
-        if (letter.startsWith('B')) return 'text-blue-400';
-        if (letter.startsWith('C')) return 'text-amber-400';
-        return 'text-red-400';
-    };
-
-    const has_category_averages = categories.some((c: Category) => c.percentage !== null);
-    const show_category_cards = course.grading_mode !== "letter" && has_category_averages;
-    const is_linear_list = course.grading_mode === "letter";
+    const categories = data?.categories || [];
+    const assignments = data?.assignments || [];
 
     // Dynamically group assignments based on keyword matching with categories
-    const groupedAssignments = categories.map((cat: Category) => {
-        return {
-            category: cat,
-            assignments: assignments.filter((a: Assignment) => {
-                const n = a.name.toLowerCase();
-                const c = cat.name.toLowerCase();
-                if (c.includes('homework') || c.includes('hw')) return n.includes('hw') || n.includes('practice') || n.includes('reading') || n.includes('log') || n.includes('homework') || n.includes('assignment');
-                if (c.includes('test') || c.includes('quiz')) return n.includes('test') || n.includes('quiz') || n.includes('exam') || n.includes('report');
-                if (c.includes('project') || c.includes('lab') || c.includes('essay')) return n.includes('project') || n.includes('lab') || n.includes('essay') || n.includes('presentation') || n.includes('research');
-                if (c.includes('participation')) return n.includes('participation') || n.includes('discussion');
-                return false;
-            })
-        };
-    }).filter((g: { category: Category, assignments: Assignment[] }) => g.assignments.length > 0);
-
-    const categorizedIds = new Set(groupedAssignments.flatMap((g: { category: Category, assignments: Assignment[] }) => g.assignments.map((a: Assignment) => a.id)));
-    const uncategorizedAssignments = assignments.filter((a: Assignment) => !categorizedIds.has(a.id));
-
-    const formatCourseName = (fullName: string) => {
-        let name = fullName.split(':')[0].split('-')[0].trim();
-        const words = name.split(' ');
-        if (words.length <= 1) return { context: 'COURSE', subject: name };
-
-        const prefixes = ['AP', 'HONORS', 'IB', 'ADVANCED', 'INTRO', 'PE', 'PHYSICAL'];
-        if (prefixes.includes(words[0].toUpperCase())) {
-            return {
-                context: words[0].toUpperCase(),
-                subject: words.slice(1).join(' ')
-            };
-        }
+    const { groupedAssignments, uncategorizedAssignments } = useMemo(() => {
+        if (!categories.length || !assignments.length) return { groupedAssignments: [], uncategorizedAssignments: [] };
         
-        return { context: 'CLASS', subject: name };
-    };
+        const grouped = categories.map((cat: Category) => {
+            return {
+                category: cat,
+                assignments: assignments.filter((a: Assignment) => {
+                    const n = a.name.toLowerCase();
+                    const c = cat.name.toLowerCase();
+                    if (c.includes('homework') || c.includes('hw')) return n.includes('hw') || n.includes('practice') || n.includes('reading') || n.includes('log') || n.includes('homework') || n.includes('assignment');
+                    if (c.includes('test') || c.includes('quiz')) return n.includes('test') || n.includes('quiz') || n.includes('exam') || n.includes('report');
+                    if (c.includes('project') || c.includes('lab') || c.includes('essay')) return n.includes('project') || n.includes('lab') || n.includes('essay') || n.includes('presentation') || n.includes('research');
+                    if (c.includes('participation')) return n.includes('participation') || n.includes('discussion');
+                    return false;
+                })
+            };
+        }).filter((g: { category: Category, assignments: Assignment[] }) => g.assignments.length > 0);
+
+        const categorizedIds = new Set(grouped.flatMap((g: { category: Category, assignments: Assignment[] }) => g.assignments.map((a: Assignment) => a.id)));
+        const uncategorized = assignments.filter((a: Assignment) => !categorizedIds.has(a.id));
+        
+        return { groupedAssignments: grouped, uncategorizedAssignments: uncategorized };
+    }, [categories, assignments]);
+
+    const formattedDates = useMemo(() => {
+        const dict: Record<number, string | null> = {};
+        if (!assignments.length) return dict;
+        assignments.forEach((a: Assignment) => {
+            const parsed = parseSchoologyDate(a.due_date);
+            dict[a.id] = parsed ? parsed.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : null;
+        });
+        return dict;
+    }, [assignments]);
+
+    if (loading) return <div className="min-h-screen bg-[var(--color-bg-dark)] flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div></div>;
+    if (!data || !data.course) return <div className="min-h-screen bg-[var(--color-bg-dark)] flex items-center justify-center">No data found</div>;
+
+    const { course } = data;
+
+    const has_category_averages = categories.some((c: Category) => c.percentage !== null);
+    const show_category_cards = categories.length > 0;
+    const is_linear_list = categories.length === 0;
 
     const { context, subject } = formatCourseName(course.name);
-
-    const cleanAssignmentName = (name: string) => {
-        let cleanName = name.trim();
-        const suffixes = ["assignment", "assessment", "discussion", "external-tool-link", "link"];
-        for (const suffix of suffixes) {
-            if (cleanName.toLowerCase().endsWith(suffix)) {
-                cleanName = cleanName.substring(0, cleanName.length - suffix.length).trim();
-            }
-        }
-        return cleanName;
-    };
-
-    const parseSchoologyDate = (dateStr: string) => {
-        if (!dateStr) return null;
-        try {
-            let parsedDate = new Date(dateStr);
-            if (isNaN(parsedDate.getTime())) {
-                parsedDate = new Date(`${dateStr} ${new Date().getFullYear()}`);
-            }
-            if (isNaN(parsedDate.getTime())) return null;
-            return parsedDate;
-        } catch {
-            return null;
-        }
-    };
 
     return (
         <div className="min-h-screen bg-[var(--color-bg-dark)] text-[#f8fafc]">
@@ -173,10 +209,10 @@ export default function CourseDetail({ params }: { params: Promise<{ id: string 
                         {categories.map((cat: Category) => (
                             <div key={cat.id} className="bg-[#1e2230] rounded-xl p-5 border border-[#2a3045]/50 min-w-[200px] flex-shrink-0 shadow-sm">
                                 <div className="text-[11px] font-bold text-gray-400 tracking-widest mb-3 uppercase">{cat.name}</div>
-                                <div className={`text-[26px] font-bold tracking-tight ${cat.percentage ? 'text-blue-500' : 'text-gray-500'}`}>
+                                <div className={`text-[26px] font-bold tracking-tight ${cat.percentage ? 'text-[#38bdf8]' : 'text-gray-500'}`}>
                                     {cat.percentage ? `${cat.percentage.toFixed(1)}%` : '—'}
                                 </div>
-                                <div className="text-[12px] text-gray-500 font-medium mt-1">{Math.round(cat.weight)}% of grade</div>
+                                {cat.weight ? <div className="text-[12px] text-gray-500 font-medium mt-1">{Math.round(cat.weight)}% of grade</div> : null}
                             </div>
                         ))}
                     </div>
@@ -203,9 +239,9 @@ export default function CourseDetail({ params }: { params: Promise<{ id: string 
                                                 {a.timeliness_status === "late_submitted" && a.submission_status === "submitted" ? <span className="text-[10px] font-bold bg-amber-500/10 border border-amber-500/20 text-amber-300 px-2 py-0.5 rounded shadow-sm tracking-wide">LATE</span> : null}
                                                 {a.grading_status === "ungraded" && a.submission_status === "submitted" ? <span className="text-[10px] font-bold bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded shadow-sm tracking-wide">SUBMITTED</span> : null}
                                             </div>
-                                            <div className="text-[13px] text-gray-500 mt-1 font-medium">Due {a.due_date && parseSchoologyDate(a.due_date) ? parseSchoologyDate(a.due_date)!.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'ASAP'}</div>
+                                            <div className="text-[13px] text-gray-500 mt-1 font-medium">Due {formattedDates[a.id] || 'ASAP'}</div>
                                         </div>
-                                        <div className="font-bold text-blue-500 text-[18px]">
+                                        <div className={`font-bold text-[18px] ${getScoreColor(a.score_type, a.score, a.max_score, a.grade_text)}`}>
                                             {a.score_type === 'letter' || a.score_type === 'status' 
                                                 ? a.grade_text 
                                                 : (a.score !== null ? (a.max_score === 100 ? `${a.score}%` : `${a.score}/${a.max_score}`) : '--')}
@@ -221,7 +257,9 @@ export default function CourseDetail({ params }: { params: Promise<{ id: string 
                             <div key={groupIdx}>
                                 <div className="flex items-center gap-3 mb-5">
                                     <h2 className="text-[13px] font-bold tracking-widest text-white uppercase">{group.category.name}</h2>
-                                    <span className="bg-[#1e2230] text-[11px] font-medium px-2.5 py-1 rounded-full text-gray-400 tracking-wide">{Math.round(group.category.weight)}%</span>
+                                    <span className="bg-[#1e2230] text-[11px] font-medium px-2.5 py-1 rounded-full text-gray-400 tracking-wide">
+                                        {group.category.percentage ? `${group.category.percentage.toFixed(1)}%` : '--'}
+                                    </span>
                                 </div>
 
                                 <div className="bg-[#1e2230] rounded-xl border border-[#2a3045]/50 overflow-hidden shadow-sm">
@@ -240,9 +278,9 @@ export default function CourseDetail({ params }: { params: Promise<{ id: string 
                                                         {a.timeliness_status === "late_submitted" && a.submission_status === "submitted" ? <span className="text-[10px] font-bold bg-amber-500/10 border border-amber-500/20 text-amber-300 px-2 py-0.5 rounded shadow-sm tracking-wide">LATE</span> : null}
                                                         {a.grading_status === "ungraded" && a.submission_status === "submitted" ? <span className="text-[10px] font-bold bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded shadow-sm tracking-wide">SUBMITTED</span> : null}
                                                     </div>
-                                                    <div className="text-[13px] text-gray-500 mt-1 font-medium">Due {a.due_date && parseSchoologyDate(a.due_date) ? parseSchoologyDate(a.due_date)!.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'ASAP'}</div>
+                                                    <div className="text-[13px] text-gray-500 mt-1 font-medium">Due {formattedDates[a.id] || 'ASAP'}</div>
                                                 </div>
-                                                <div className="font-bold text-blue-500 text-[18px]">
+                                                <div className={`font-bold text-[18px] ${getScoreColor(a.score_type, a.score, a.max_score, a.grade_text)}`}>
                                                     {a.score_type === 'letter' || a.score_type === 'status'
                                                         ? a.grade_text 
                                                         : (a.score !== null ? (a.max_score === 100 ? `${a.score}%` : `${a.score}/${a.max_score}`) : '--')}
@@ -277,9 +315,9 @@ export default function CourseDetail({ params }: { params: Promise<{ id: string 
                                                         {a.timeliness_status === "late_submitted" && a.submission_status === "submitted" ? <span className="text-[10px] font-bold bg-amber-500/10 border border-amber-500/20 text-amber-300 px-2 py-0.5 rounded shadow-sm tracking-wide">LATE</span> : null}
                                                         {a.grading_status === "ungraded" && a.submission_status === "submitted" ? <span className="text-[10px] font-bold bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded shadow-sm tracking-wide">SUBMITTED</span> : null}
                                                     </div>
-                                                    <div className="text-[13px] text-gray-500 mt-1 font-medium">Due {a.due_date && parseSchoologyDate(a.due_date) ? parseSchoologyDate(a.due_date)!.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'ASAP'}</div>
+                                                    <div className="text-[13px] text-gray-500 mt-1 font-medium">Due {formattedDates[a.id] || 'ASAP'}</div>
                                                 </div>
-                                                <div className="font-bold text-blue-500 text-[18px]">
+                                                <div className={`font-bold text-[18px] ${getScoreColor(a.score_type, a.score, a.max_score, a.grade_text)}`}>
                                                     {a.score_type === 'letter' || a.score_type === 'status'
                                                         ? a.grade_text 
                                                         : (a.score !== null ? (a.max_score === 100 ? `${a.score}%` : `${a.score}/${a.max_score}`) : '--')}
