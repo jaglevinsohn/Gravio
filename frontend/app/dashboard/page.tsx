@@ -81,7 +81,7 @@ export default function Dashboard() {
         if (!userId) return;
         const checkConn = async () => {
             try {
-                const res = await fetch(`http://localhost:8000/api/check-connection?user_id=${userId}`);
+                const res = await fetch(`https://gravio-backend.onrender.com/api/check-connection?user_id=${userId}`);
                 const data = await res.json();
                 
                 console.log("[Route Guard] Connection Check:", data);

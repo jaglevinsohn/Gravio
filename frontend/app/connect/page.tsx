@@ -49,7 +49,7 @@ export default function ConnectSchoology() {
                 setStatus('idle');
                 return;
             }
-            const response = await fetch(`http://localhost:8000/api/check-connection?user_id=${userId}`);
+            const response = await fetch(`https://gravio-backend.onrender.com/api/check-connection?user_id=${userId}`);
             const data = await response.json();
 
             if (data.stats) {

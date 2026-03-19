@@ -8,7 +8,7 @@ document.getElementById('sync-btn').addEventListener('click', () => {
 
 // Send a message to the content script in the Gravio tab to get the user ID
   // Chrome match patterns do not support port numbers, so we match all localhost and filter manually
-  chrome.tabs.query({url: ["http://localhost/*", "https://*.gravio.app/*", "http://*.gravio.app/*"]}, function(tabs) {
+  chrome.tabs.query({url: ["http://localhost/*", "https://*.gravio.us/*", "https://gravio.us/*"]}, function(tabs) {
     if (chrome.runtime.lastError || !tabs) {
       statusEl.textContent = "Please open the Gravio connect page and log in first.";
       statusEl.className = "error";
@@ -17,7 +17,7 @@ document.getElementById('sync-btn').addEventListener('click', () => {
     }
     
     // Manually filter for port 3000 if it's localhost
-    const clearViewTabs = tabs.filter(t => t.url.includes('localhost:3000') || t.url.includes('gravio.app'));
+    const clearViewTabs = tabs.filter(t => t.url.includes('localhost:3000') || t.url.includes('gravio.us'));
     
     if (clearViewTabs.length === 0) {
       statusEl.textContent = "Please open the Gravio connect page and log in first.";

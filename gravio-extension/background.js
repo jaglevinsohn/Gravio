@@ -57,7 +57,7 @@ async function handleSessionCapture(userId, sendResponse) {
     // Send cookies to the Python Backend
     console.log("Found cookies, sending to backend:", formattedCookies.length);
     
-    const response = await fetch('http://localhost:8000/api/connect-schoology-extension', {
+    const response = await fetch('https://gravio-backend.onrender.com/api/connect-schoology-extension', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

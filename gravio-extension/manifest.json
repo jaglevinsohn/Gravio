@@ -10,7 +10,7 @@
     ],
     "host_permissions": [
         "<all_urls>",
-        "http://localhost:8000/*"
+        "https://gravio-backend.onrender.com/*"
     ],
     "action": {
         "default_popup": "popup.html",
@@ -21,7 +21,7 @@
     },
     "content_scripts": [
         {
-            "matches": ["http://localhost:3000/*", "https://*.gravio.app/*"],
+            "matches": ["http://localhost:3000/*", "https://*.gravio.us/*", "https://gravio.us/*"],
             "js": ["content.js"]
         }
     ]
