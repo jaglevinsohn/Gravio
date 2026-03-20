@@ -33,6 +33,11 @@ async def parse_assignments(page: Page, external_course_id: str, target_domain: 
         # We should already be on the grades page from parsing courses, but verify:
         if "grades/grades" not in page.url:
             await page.goto(f"https://{target_domain}/grades/grades", wait_until="domcontentloaded")
+            
+        try:
+            await page.wait_for_selector(f"#s-js-gradebook-course-{external_course_id}", timeout=10000)
+        except Exception:
+            pass
         
         # Scrape the assignment list
         assignments = []
