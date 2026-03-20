@@ -13,8 +13,9 @@ async def parse_courses(page: Page, target_domain: str) -> list:
         await page.goto(f"https://{target_domain}/grades/grades", wait_until="domcontentloaded")
         try:
             await page.wait_for_selector(".s-grades-course-item", timeout=10000)
-        except Exception:
-            pass
+        except Exception as e:
+            title = await page.title()
+            logger.error(f"CRITICAL TIMEOUT: Could not find course class. URL: {page.url} TITLE: {title}")
         
         # Scrape course cards or the grade table
         courses = []
