@@ -199,12 +199,14 @@ def get_daily_summary(student_id: int, user_id: str = "1", db: Session = Depends
     # Focus only on Today and Upcoming, ordered by urgency
     focus_tasks = today_tasks + sorted_upcoming_strings
     
+    first_name = student.name.split(" ")[0] if student.name else "Your student"
+    
     if len(today_tasks) > 0:
-        recent_activity = f"You have {len(today_tasks)} assignment(s) due today!"
+        recent_activity = f"{first_name} has {len(today_tasks)} assignment(s) due today. Here is a breakdown of what they should be focusing on to stay on track:"
     elif len(upcoming_tasks) > 0:
-        recent_activity = "You're caught up for today, but you have assignments coming up soon."
+        recent_activity = f"{first_name} is completely caught up for today! However, they have {len(upcoming_tasks)} assignment(s) coming up soon. Here is a look ahead at their priorities:"
     else:
-        recent_activity = "You're all caught up! No tasks due today or in the next 7 days."
+        recent_activity = f"{first_name} is completely caught up on all coursework! They have no assignments due today or in the next 7 days."
 
     return {
         "daily_summary": {
