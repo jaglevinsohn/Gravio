@@ -21,7 +21,7 @@ async def connect_schoology_account(username, password) -> str:
 
         try:
             logger.info("Navigating to Schoology login page...")
-            await page.goto("https://app.schoology.com/login", wait_until="networkidle")
+            await page.goto("https://app.schoology.com/login", wait_until="domcontentloaded")
 
             # Fill in the credentials
             await page.fill("#edit-mail", username)

@@ -10,7 +10,7 @@ async def parse_students(page: Page, target_domain: str) -> list:
     """
     try:
         # Navigate to the home page to get the user's name
-        await page.goto(f"https://{target_domain}/home", wait_until="networkidle")
+        await page.goto(f"https://{target_domain}/home", wait_until="domcontentloaded")
         
         # We try modern Schoology header selectors first
         student_name_element = await page.query_selector(".LGaPf._17Z60")

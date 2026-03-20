@@ -63,7 +63,7 @@ async def run_sync_for_connection(db: Session, connection_id: int):
             
             # Verify the session is still valid
             logger.info(f"Navigating to exact SSO portal: {target_url}")
-            await page.goto(target_url, wait_until="networkidle")
+            await page.goto(target_url, wait_until="domcontentloaded")
             
             actual_url = page.url
             logger.info(f"After navigation, landed on: {actual_url}")
@@ -74,7 +74,7 @@ async def run_sync_for_connection(db: Session, connection_id: int):
                 try:
                     # Click the first account listed in the Google SSO chooser
                     await page.locator("div[data-identifier]").first.click(timeout=8000)
-                    await page.wait_for_load_state("networkidle")
+                    await page.wait_for_load_state("domcontentloaded")
                     await page.wait_for_timeout(2000) # Give it an extra second to process the login
                     actual_url = page.url
                     logger.info(f"Clicked SSO Profile! URL is now: {actual_url}")
