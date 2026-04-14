@@ -125,16 +125,7 @@ export default function ConnectSchoology() {
                             <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-sm border border-blue-500/30">1</div>
                             <div>
                                 <h4 className="text-white font-medium mb-1">Install the Extension</h4>
-                                <p className="text-sm text-[var(--color-text-muted)] mb-3">Install the official Gravio Chrome extension to securely sync your data.</p>
-                                <a 
-                                    href="https://chromewebstore.google.com/detail/gbiiakmiieboimpckicmkpgjhhafogdj?utm_source=item-share-cb" 
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 rounded-lg text-sm font-medium transition-colors border border-blue-500/20"
-                                >
-                                    <Download className="w-4 h-4" />
-                                    Download from Chrome Web Store
-                                </a>
+                                <p className="text-sm text-[var(--color-text-muted)]">Install the Gravio Chrome extension on your computer. (Currently in developer mode via the `gravio-extension` folder).</p>
                             </div>
                         </li>
                         <li className="flex gap-4">
@@ -197,12 +188,6 @@ export default function ConnectSchoology() {
                             </>
                         )}
                     </button>
-                    
-                    {status === 'syncing_schoology' && (
-                        <p className="mt-3 text-center text-sm font-medium text-blue-400 animate-pulse">
-                            Please keep this tab open. Syncing may take a couple of minutes...
-                        </p>
-                    )}
                     
                     <p className="mt-4 text-center text-xs text-[var(--color-text-muted)] mb-4">
                         Gravio only reads your grades. We never store your passwords or modify your Schoology data.
