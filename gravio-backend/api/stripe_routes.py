@@ -75,8 +75,8 @@ async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
 
     if event['type'] == 'checkout.session.completed':
         session = event['data']['object']
-        user_id = session.get('client_reference_id')
-        subscription_id = session.get('subscription')
+        user_id = getattr(session, 'client_reference_id', None)
+        subscription_id = getattr(session, 'subscription', None)
         
         if user_id and subscription_id:
             sub = db.query(UserSubscription).filter(UserSubscription.user_id == user_id).first()
@@ -87,8 +87,8 @@ async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
 
     elif event['type'] in ['customer.subscription.updated', 'customer.subscription.deleted']:
         subscription = event['data']['object']
-        sub_id = subscription.get('id')
-        status = subscription.get('status')
+        sub_id = getattr(subscription, 'id', None)
+        status = getattr(subscription, 'status', None)
         
         sub = db.query(UserSubscription).filter(UserSubscription.stripe_subscription_id == sub_id).first()
         if sub:
