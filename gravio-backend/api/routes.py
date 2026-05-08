@@ -93,7 +93,7 @@ def check_connection(user_id: str, db: Session = Depends(get_db)):
     is_active = connection is not None and connection.connection_status == "active"
     
     sub = db.query(UserSubscription).filter(UserSubscription.user_id == user_id).first()
-    is_subscribed = sub is not None and sub.status == "active"
+    is_subscribed = sub is not None and sub.status in ["active", "trialing"]
     
     sync_status = "idle"
     stats = {
