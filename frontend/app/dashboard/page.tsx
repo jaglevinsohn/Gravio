@@ -95,7 +95,7 @@ export default function Dashboard() {
                 
                 console.log("[Route Guard] Connection Check:", data);
 
-                if (data.connected && data.sync_status === 'success') {
+                if (data.sync_status === 'success' || data.sync_status === 'failed') {
                     // Bypass paywall if environment variable is set
                     if (process.env.NEXT_PUBLIC_BYPASS_PAYWALL === 'true') {
                         setIsSubscribed(true);
