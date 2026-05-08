@@ -180,7 +180,9 @@ export default function Dashboard() {
 
     if (!loading && students.length === 0) {
         return (
-            <div className="min-h-screen bg-[var(--color-bg-dark)] flex items-center justify-center px-4">
+            <>
+            {isSubscribed === false && <PaywallModal userId={userId} />}
+            <div className={`min-h-screen bg-[var(--color-bg-dark)] flex items-center justify-center px-4 ${isSubscribed === false ? 'blur-md pointer-events-none' : ''}`}>
                 <div className="max-w-md w-full text-center space-y-6 bg-[var(--color-card-dark)] p-10 rounded-2xl shadow-2xl border border-[var(--color-card-border)] relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
                     <div className="absolute -top-10 -right-10 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl"></div>
@@ -207,6 +209,7 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
+            </>
         );
     }
 
