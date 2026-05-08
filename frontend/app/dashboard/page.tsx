@@ -103,7 +103,7 @@ export default function Dashboard() {
                         setIsSubscribed(data.is_subscribed);
                     }
                     setConnectionStatus('connected');
-                } else if (!data.connected || data.sync_status === 'failed' || data.sync_status === 'idle') {
+                } else if (!data.connected || data.sync_status === 'idle') {
                     console.log("[Route Guard] Not connected definitively. Redirecting to /connect.");
                     setConnectionStatus('not_connected');
                     router.push('/connect');
