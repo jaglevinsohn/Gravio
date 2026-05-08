@@ -115,6 +115,19 @@ def check_connection(user_id: str, db: Session = Depends(get_db)):
             
     return {"connected": is_active, "sync_status": sync_status, "stats": stats, "is_subscribed": is_subscribed}
 
+@router.get("/debug/subscription/{user_id}")
+def debug_subscription(user_id: str, db: Session = Depends(get_db)):
+    from db.models import UserSubscription
+    sub = db.query(UserSubscription).filter(UserSubscription.user_id == user_id).first()
+    if not sub:
+        return {"error": "No subscription found for this user"}
+    return {
+        "user_id": sub.user_id,
+        "stripe_customer_id": sub.stripe_customer_id,
+        "stripe_subscription_id": sub.stripe_subscription_id,
+        "status": sub.status
+    }
+
 async def run_sync_worker(connection_id: int):
     """ Helper to run async sync in background without blocking response. """
     generator = get_db()
