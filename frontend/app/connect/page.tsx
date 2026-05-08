@@ -50,9 +50,9 @@ export default function ConnectSchoology() {
                 });
             }
 
-            if (data.connected && data.sync_status === 'success') {
+            if ((data.connected && data.sync_status === 'success') || data.sync_status === 'failed') {
                 setStatus('success');
-                setDetailedStatus('Sync Complete!');
+                setDetailedStatus(data.sync_status === 'failed' ? 'Bypassing to Paywall...' : 'Sync Complete!');
                 setTimeout(() => {
                     router.push('/dashboard');
                 }, 1500);
